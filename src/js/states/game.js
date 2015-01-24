@@ -1,43 +1,68 @@
-var Player = require('../entities/player');
+var Bird = require('../entities/bird');
+var Ground = require('../entities/ground');
+var PipeGroup = require('../entities/pipeGroup');
 
-var Game = function () {
-  this.testentity = null;
+var Game = function() {
+    this.testentity = null;
 };
 
 module.exports = Game;
 
 Game.prototype = {
+    
+    create: function() {
+        this.game.physics.startSystem(Phaser.Physics.ARCADE);
+        this.game.physics.arcade.gravity.y = 1200;
+        
+        this.background = this.game.add.sprite(0, 0, 'background');
+        this.background.width = this.game.width;
+        this.background.height = this.game.height;
+        
+        this.bird = new Bird(this.game, 100, this.game.height / 2);
+        this.game.add.existing(this.bird);
+        
+        this.pipes = this.game.add.group();
 
-  create: function () {
-    var x = (this.game.width / 2) - 100;
-    var y = (this.game.height / 2) - 50;
+        //the ground
+        this.ground = new Ground(this.game, 0, 400, 335, 112);
+        this.game.add.existing(this.ground);
+        
+        
+        this.game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
+        
+        var flapKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        flapKey.onDown.add(this.bird.flap, this.bird);
 
-    this.testentity = new Player(this.game, x, y);
-    this.testentity.anchor.setTo(0.5, 0.5);
+        //mouse click and tap
+        this.input.onDown.add(this.bird.flap, this.bird);
 
-    this.input.onDown.add(this.onInputDown, this);
-  },
-
-  update: function () {
-    var x, y, cx, cy, dx, dy, angle, scale;
-
-    x = this.input.position.x;
-    y = this.input.position.y;
-    cx = this.world.centerX;
-    cy = this.world.centerY;
-
-    angle = Math.atan2(y - cy, x - cx) * (180 / Math.PI);
-    this.testentity.angle = angle;
-
-    dx = x - cx;
-    dy = y - cy;
-    scale = Math.sqrt(dx * dx + dy * dy) / 100;
-
-    this.testentity.scale.x = scale * 0.6;
-    this.testentity.scale.y = scale * 0.6;
-  },
-
-  onInputDown: function () {
-    this.game.state.start('Menu');
-  }
+        //add a timer
+        this.pipeGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 1.25, this.generatoePipes, this);
+        this.pipeGenerator.timer.start();
+    
+    },
+    
+    update: function() {
+        this.game.physics.arcade.collide(this.bird, this.ground, this.deathHandler, null, this);
+        // enable collisions between the bird and each group in the pipes group
+        this.pipes.forEach(function(pipeGroup) {
+            this.game.physics.arcade.collide(this.bird, pipeGroup, this.deathHandler, null, this);
+        }, this);
+    },
+    generatoePipes: function() {
+        var pipeY = this.game.rnd.integerInRange(-100, 100);
+        var pipeGroup = this.pipes.getFirstExists(false);
+        if (!pipeGroup) {
+            pipeGroup = new PipeGroup(this.game, this.pipes);
+        }
+        pipeGroup.reset(this.game.width + pipeGroup.width / 2, pipeY);
+    },
+    deathHandler: function() {
+//         this.game.state.start('gameover');
+    },
+    shutdown: function() {
+        this.game.input.keyboard.removeKey(Phaser.Keyboard.SPACEBAR);
+        this.bird.destroy();
+        this.pipes.destroy();
+    }
 };
