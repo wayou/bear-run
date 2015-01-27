@@ -1,0 +1,24 @@
+language: node_js
+node_js:
+  - "0.11"
+branches:
+  only:
+  - master
+before_install:
+- npm install -g gulp
+install:
+- npm i
+- bower i
+before_script:
+- git config --global user.name 'wayou'
+- git config --global user.email 'liuwayong@gmail.com'
+script:
+- gulp build
+after_success:
+- cd dist
+- git init
+- git config user.name "wayou"
+- git config user.email "liuwayong@gmail.com"
+- git add .
+- git commit -m "Auto Update from TRAVIS-CI"
+- git push --force --quiet "https://${GH_TOKEN}@github.com/wayou/bear-run.git" master:gh-pages
