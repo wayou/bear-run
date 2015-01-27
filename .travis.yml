@@ -17,8 +17,6 @@ script:
 after_success:
 - cd dist
 - git init
-- git config user.name "wayou"
-- git config user.email "liuwayong@gmail.com"
-- git add .
+- git add -A .
 - git commit -m "Auto Update from TRAVIS-CI"
 - git push --force --quiet "https://${GH_TOKEN}@github.com/wayou/bear-run.git" master:gh-pages
