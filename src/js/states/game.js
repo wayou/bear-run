@@ -1,68 +1,43 @@
-var Bird = require('../entities/bird');
+var Player = require('../entities/player');
 var Ground = require('../entities/ground');
-var PipeGroup = require('../entities/pipeGroup');
 
-var Game = function() {
-    this.testentity = null;
-};
+var Game = function() {};
 
 module.exports = Game;
 
 Game.prototype = {
-    
+
     create: function() {
+
+        //set background color for the game
+        this.game.stage.backgroundColor = '#068CFD';
+
+        //enable physics system
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
         this.game.physics.arcade.gravity.y = 1200;
-        
-        this.background = this.game.add.sprite(0, 0, 'background');
-        this.background.width = this.game.width;
-        this.background.height = this.game.height;
-        
-        this.bird = new Bird(this.game, 100, this.game.height / 2);
-        this.game.add.existing(this.bird);
-        
-        this.pipes = this.game.add.group();
 
-        //the ground
-        this.ground = new Ground(this.game, 0, 400, 335, 112);
+       
+
+        //place the ground
+        this.ground = new Ground(this.game, 0, 400, 335, 112, 'ground');
         this.game.add.existing(this.ground);
-        
-        
-        this.game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
-        
-        var flapKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-        flapKey.onDown.add(this.bird.flap, this.bird);
 
-        //mouse click and tap
-        this.input.onDown.add(this.bird.flap, this.bird);
+         //the player
+        this.player = new Player(this.game, 100, 100, 'player');
+        this.game.add.existing(this.player);
 
-        //add a timer
-        this.pipeGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 1.25, this.generatoePipes, this);
-        this.pipeGenerator.timer.start();
-    
+        
+
     },
-    
+
     update: function() {
-        this.game.physics.arcade.collide(this.bird, this.ground, this.deathHandler, null, this);
-        // enable collisions between the bird and each group in the pipes group
-        this.pipes.forEach(function(pipeGroup) {
-            this.game.physics.arcade.collide(this.bird, pipeGroup, this.deathHandler, null, this);
-        }, this);
-    },
-    generatoePipes: function() {
-        var pipeY = this.game.rnd.integerInRange(-100, 100);
-        var pipeGroup = this.pipes.getFirstExists(false);
-        if (!pipeGroup) {
-            pipeGroup = new PipeGroup(this.game, this.pipes);
-        }
-        pipeGroup.reset(this.game.width + pipeGroup.width / 2, pipeY);
-    },
-    deathHandler: function() {
-//         this.game.state.start('gameover');
+        //print debug info and show sprite box
+        this.game.debug.body(this.player);
+
+    this.game.physics.arcade.collide(this.player, this.ground);
+
     },
     shutdown: function() {
-        this.game.input.keyboard.removeKey(Phaser.Keyboard.SPACEBAR);
-        this.bird.destroy();
-        this.pipes.destroy();
+
     }
 };
