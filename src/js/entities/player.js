@@ -29,7 +29,7 @@ Player.prototype.update = function() {
 };
 
 Player.prototype.jump = function() {
-    if (this.body.touching.down) {
+    if (this.body.touching.down && this.game.global.status != 2) {
         this.body.velocity.y = -600;
         this.stop();
         // this.frame = 6;
