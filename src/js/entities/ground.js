@@ -5,8 +5,6 @@ var Ground = function(game, x, y, width, height, key) {
 
     this.game.physics.arcade.enableBody(this);
 
-    this.autoScroll(-200, 0);
-
     this.body.allowGravity = false;
     this.body.immovable = true;
 };
@@ -16,6 +14,14 @@ Ground.prototype.constructor = Ground;
 
 Ground.prototype.update = function() {
     // write your prefab's specific update code here  
+};
+
+Ground.prototype.scroll = function() {
+    this.autoScroll(-180, 0);
+};
+
+Ground.prototype.stop = function() {
+    this.stopScroll();
 };
 
 module.exports = Ground;
