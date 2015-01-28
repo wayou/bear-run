@@ -8,7 +8,7 @@ Menu.prototype = {
     create: function() {
 
 this.game.background='#068CFD';
-        this.startBtn = this.game.add.button(this.game.width / 2, 300, 'startBtn', this.startClick, this);
+        this.startBtn = this.game.add.button(this.game.width / 2, this.game.height / 2, 'startBtn', this.startClick, this);
         this.startBtn.anchor.setTo(0.5,0.5);
 
     },

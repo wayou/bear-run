@@ -11,6 +11,8 @@ var Player = function(game, x, y, key, frame) {
 
     this.body.collideWorldBounds = true;
 
+    this.jumpSnd = this.game.add.audio('jump');
+
     this.animations.add('run', [5, 6, 7, 8], 10, true); //add(name, frames, frameRate, loop, useNumericIndex) 
 }
 
@@ -24,7 +26,8 @@ Player.prototype.update = function() {};
 
 Player.prototype.jump = function() {
     if (this.body.touching.down) {
-        this.body.velocity.y = -450;
+        this.body.velocity.y = -600;
+        this.jumpSnd.play();
     }
 };
 

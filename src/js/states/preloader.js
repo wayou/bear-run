@@ -23,13 +23,19 @@ Preloader.prototype = {
         this.load.spritesheet('player', 'assets/player.png', 32, 48);
 
         //the ground
-        this.load.image('ground', 'assets/ground.png');
+        this.load.image('ground', 'assets/ground.jpg');
 
         //the button
         this.load.image('startBtn', 'assets/start-button.png');
 
+        //obstacles
+        this.load.spritesheet('obstacles', 'assets/obstacles.png', 80, 60);
+
+        this.load.audio('jump', 'assets/snd/jump.mp3');
+        this.load.audio('scored', 'assets/snd/scored.mp3');
+
         //the font
-        this.load.bitmapFont('flappyfont', 'assets/font/minecraftia.png', 'assets/font/minecraftia.xml');
+        this.load.bitmapFont('minecraftfnt', 'assets/font/minecraftia.png', 'assets/font/minecraftia.xml');
 
     },
 

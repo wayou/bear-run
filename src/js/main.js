@@ -1,11 +1,21 @@
+/*
+ * bear run
+ * this is a html5 web game built with phaser
+ * and inspired by chorme offline hidden game t-rex runner
+ * v0.1.0
+ * for more info pls head to https://github.com/wayou/bear-run
+ */
+
 'use strict';
 
-var game = new Phaser.Game(320,480, Phaser.AUTO, '');
+var game = new Phaser.Game(320, 480, Phaser.AUTO, '');
 
-game.global={
-    status:0,//0 stop 1 running
-    score:0,
-    bestScore:0
+game.global = {
+    score: 0,
+    bestScore: 0,
+    isOver:false,
+    level: 1,
+    ratio: 1 //determie the scrolling speed and the frequency of the obstacles,increase with the time elapsed
 }
 
 window.Utils = require('./utils');

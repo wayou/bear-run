@@ -17,7 +17,7 @@ Ground.prototype.update = function() {
 };
 
 Ground.prototype.scroll = function() {
-    this.autoScroll(-180, 0);
+    this.autoScroll(-200, 0);
 };
 
 Ground.prototype.stop = function() {

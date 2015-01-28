@@ -1,5 +1,6 @@
 var Player = require('../entities/player');
 var Ground = require('../entities/ground');
+var Obstacle = require('../entities/obstacle');
 
 var Game = function() {};
 
@@ -14,17 +15,22 @@ Game.prototype = {
 
         //enable physics system
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
-        this.game.physics.arcade.gravity.y = 1200;
+        this.game.physics.arcade.gravity.y = 1500;
 
         //place the ground
-        this.ground = new Ground(this.game, 0, this.game.height/2, 335, 112, 'ground');
+        this.ground = new Ground(this.game, 0, this.game.height / 2, 335, 312, 'ground');
         //fill the bottom half screen
-        this.ground.scale.setTo(1,2.2);
+        // this.ground.scale.setTo(1, 2);
         this.game.add.existing(this.ground);
+
+        this.obstacles = this.game.add.group();
 
         //the player
         this.player = new Player(this.game, 60, 100, 'player');
         this.game.add.existing(this.player);
+
+        //sound
+        this.scoreSnd = this.game.add.audio('scored');
 
         /*key control*/
         this.arrow = this.game.input.keyboard.createCursorKeys();
@@ -47,6 +53,13 @@ Game.prototype = {
         this.game.input.onDown.add(this.player.jump, this.player);
         /*key control end*/
 
+        //display score
+        this.scoreBoard = this.game.add.bitmapText(10, 10, 'minecraftfnt', this.game.global.score.toString(), 15);
+        this.scoreBoard.align = 'right';
+        this.timeMark = this.game.time.time;
+
+        this.game.global.isOver = false;
+
     },
 
     update: function() {
@@ -55,16 +68,43 @@ Game.prototype = {
 
         this.game.physics.arcade.collide(this.player, this.ground);
 
+        if (!this.game.global.isOver) {
+            var score = this.game.time.elapsedSince(this.timeMark).toString();
+            this.scoreBoard.text = score.substring(0, score.length - 2);
+        }
+
+        this.obstacles.forEach(function(obstacle) {
+            //debug
+            this.game.debug.body(obstacle);
+
+            this.game.physics.arcade.collide(this.player, obstacle, this.gameOver, null, this);
+        }, this);
+
     },
     startGame: function() {
-        this.game.global.status = 1; //set to 1 to tell the player that he can run and jum
         this.player.run();
         this.ground.scroll();
+
+        // add a timer
+        this.obstacleGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 2, this.generateObstacle, this);
+        this.obstacleGenerator.timer.start();
+    },
+    generateObstacle: function() {
+        var obstacle = this.obstacles.getFirstExists(false);
+        if (!obstacle) {
+            obstacle = new Obstacle(this.game, this.game.width, this.game.height / 2, 'obstacles', 6);
+            this.obstacles.add(obstacle);
+        } else {
+            obstacle.reset(this.game.width, this.game.height / 2);
+        }
     },
     gameOver: function() {
-        this.game.global.status = 0;
+        this.game.global.isOver = true;
         this.player.stop();
         this.ground.stop();
+        this.obstacleGenerator.timer.stop();
+        this.game.global.highScore = this.scoreBoard.text;
+
     },
     shutdown: function() {
 
