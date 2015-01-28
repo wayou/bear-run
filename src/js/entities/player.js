@@ -30,7 +30,7 @@ Player.prototype.update = function() {
 
 Player.prototype.jump = function() {
     if (this.body.touching.down) {
-        this.body.velocity.y = -650;
+        this.body.velocity.y = -600;
         this.stop();
         // this.frame = 6;
         this.jumpSnd.play();
