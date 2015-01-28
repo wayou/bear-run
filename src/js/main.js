@@ -12,8 +12,10 @@ var game = new Phaser.Game(320, 480, Phaser.AUTO, '');
 
 game.global = {
     score: 0,
+    highScore: localStorage && localStorage.getItem('bear-run-high-score') || 0, //get the high score from local storage if possible
     bestScore: 0,
-    isOver:false,
+    isOver: false,
+    status: 0, //0 not started|1 started|2 game over
     level: 1,
     ratio: 1 //determie the scrolling speed and the frequency of the obstacles,increase with the time elapsed
 }

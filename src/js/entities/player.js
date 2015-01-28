@@ -22,11 +22,17 @@ Player.prototype.constructor = Player;
 /**
  * Automatically called by World.update
  */
-Player.prototype.update = function() {};
+Player.prototype.update = function() {
+    if (this.body.touching.down && this.game.global.status == 1) {
+        this.run();
+    }
+};
 
 Player.prototype.jump = function() {
     if (this.body.touching.down) {
-        this.body.velocity.y = -600;
+        this.body.velocity.y = -650;
+        this.stop();
+        // this.frame = 6;
         this.jumpSnd.play();
     }
 };

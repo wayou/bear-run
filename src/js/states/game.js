@@ -4,8 +4,6 @@ var Obstacle = require('../entities/obstacle');
 
 var Game = function() {};
 
-module.exports = Game;
-
 Game.prototype = {
 
     create: function() {
@@ -54,59 +52,80 @@ Game.prototype = {
         /*key control end*/
 
         //display score
-        this.scoreBoard = this.game.add.bitmapText(10, 10, 'minecraftfnt', this.game.global.score.toString(), 15);
+        this.scoreBoard = this.game.add.bitmapText(10, 10, 'minecraftfnt', 'BEST:' + this.game.global.highScore + '  SCORE:0', 15);
         this.scoreBoard.align = 'right';
-        this.timeMark = this.game.time.time;
-
-        this.game.global.isOver = false;
 
     },
 
     update: function() {
         //print debug info and show sprite box
-        this.game.debug.body(this.player);
+        // this.game.debug.body(this.player);
 
         this.game.physics.arcade.collide(this.player, this.ground);
 
-        if (!this.game.global.isOver) {
-            var score = this.game.time.elapsedSince(this.timeMark).toString();
-            this.scoreBoard.text = score.substring(0, score.length - 2);
+        if (this.game.global.status == 1) {
+
+            this.game.global.score = Math.floor(this.game.time.elapsedSince(this.timeMark) / 100);
+
+            //play sound every 100 score acchieved
+            if (this.game.global.score && !(this.game.global.score % 100)) {
+                this.scoreSnd.play();
+            }
+
+            this.scoreBoard.text = 'BEST:' + this.game.global.highScore + '  SCORE:' + this.game.global.score;
         }
 
         this.obstacles.forEach(function(obstacle) {
             //debug
-            this.game.debug.body(obstacle);
+            // this.game.debug.body(obstacle);
 
-            this.game.physics.arcade.collide(this.player, obstacle, this.gameOver, null, this);
+            this.game.physics.arcade.overlap(this.player, obstacle, this.gameOver, null, this);
         }, this);
 
     },
     startGame: function() {
+        this.game.global.status = 1;
+
+        this.timeMark = this.game.time.time;
+
         this.player.run();
         this.ground.scroll();
 
         // add a timer
         this.obstacleGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 2, this.generateObstacle, this);
+
         this.obstacleGenerator.timer.start();
     },
     generateObstacle: function() {
         var obstacle = this.obstacles.getFirstExists(false);
         if (!obstacle) {
-            obstacle = new Obstacle(this.game, this.game.width, this.game.height / 2, 'obstacles', 6);
+            obstacle = new Obstacle(this.game, this.game.width, this.game.height / 2-10, 'obstacles', 6);
             this.obstacles.add(obstacle);
         } else {
             obstacle.reset(this.game.width, this.game.height / 2);
         }
     },
-    gameOver: function() {
-        this.game.global.isOver = true;
-        this.player.stop();
-        this.ground.stop();
-        this.obstacleGenerator.timer.stop();
-        this.game.global.highScore = this.scoreBoard.text;
+    gameOver: function(player, obstacle) {
+        this.game.global.status = 2;
 
+        obstacle.body.velocity.x = 0;
+
+        this.player.stop();
+        this.player.frame = 4; //TODO a dead frame
+
+        this.ground.stop();
+
+        this.obstacleGenerator.timer.stop();
+
+        //update high score
+        if (this.game.global.highScore < this.game.global.score) {
+            this.game.global.highScore = this.game.global.score;
+            localStorage && localStorage.setItem('bear-run-high-score', this.game.global.score);
+        }
     },
     shutdown: function() {
 
     }
 };
+
+module.exports = Game;

@@ -15,7 +15,8 @@ Boot.prototype = {
             this.game.scale.pageAlignHorizontally = true;
             this.game.scale.pageAlignVertically = true;
         } else {
-            this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+            // this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+            this.game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
             this.game.scale.setMinMax(240, 320, 480, 640);
             this.game.scale.forceOrientation(false, true);
         }
