@@ -14,6 +14,9 @@ var Player = function(game, x, y, key, frame) {
     this.jumpSnd = this.game.add.audio('jump');
 
     this.animations.add('run', [5, 6, 7, 8], 10, true); //add(name, frames, frameRate, loop, useNumericIndex) 
+
+    //set jump frame alternately
+    this.jumpFrame = 6; //true for frame 6 and false for 8
 }
 
 Player.prototype = Object.create(Phaser.Sprite.prototype);
@@ -32,7 +35,10 @@ Player.prototype.jump = function() {
     if (this.body.touching.down && this.game.global.status != 2) {
         this.body.velocity.y = -600;
         this.stop();
-        // this.frame = 6;
+        //toggle jump frame
+        this.jumpFrame = this.jumpFrame == 6 ? 8 : 6
+        this.frame = this.jumpFrame;
+        
         this.jumpSnd.play();
     }
 };

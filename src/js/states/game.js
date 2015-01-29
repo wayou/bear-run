@@ -1,6 +1,7 @@
 var Player = require('../entities/player');
 var Ground = require('../entities/ground');
 var Obstacle = require('../entities/obstacle');
+var Background = require('../entities/background');
 
 var Game = function() {};
 
@@ -16,9 +17,14 @@ Game.prototype = {
         this.game.physics.arcade.gravity.y = 1500;
 
         //place the ground
+        this.background = new Background(this.game);
+
+        //fill the bottom half screen
+        this.game.add.existing(this.background);
+
+        //place the ground
         this.ground = new Ground(this.game, 0, this.game.height / 2, 335, 312, 'ground');
         //fill the bottom half screen
-        // this.ground.scale.setTo(1, 2);
         this.game.add.existing(this.ground);
 
         this.obstacles = this.game.add.group();
@@ -52,9 +58,17 @@ Game.prototype = {
         /*key control end*/
 
         //display score
-        this.scoreBoard = this.game.add.bitmapText(10, 10, 'minecraftfnt', 'BEST:' + this.game.global.highScore + '  SCORE:0', 15);
+        this.scoreBoard = this.game.add.bitmapText(10, 10, 'fnt', 'BEST:' + this.game.global.highScore + '  SCORE:0', 32);
         this.scoreBoard.align = 'right';
 
+        this.replayBtn = this.game.add.button(this.game.width / 2, this.game.height / 2, 'replayBtn', this.replay, this);
+        this.replayBtn.anchor.setTo(0.5, 0.5);
+        this.replayBtn.visible = false;
+
+    },
+    replay: function() {
+        this.game.global.status = 0;
+        this.game.state.start('Game');
     },
 
     update: function() {
@@ -84,12 +98,16 @@ Game.prototype = {
 
     },
     startGame: function() {
+
+        if (this.game.global.status != 0) return;
+
         this.game.global.status = 1;
 
         this.timeMark = this.game.time.time;
 
         this.player.run();
         this.ground.scroll();
+        this.background.scroll();
 
         // add a timer
         this.obstacleGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 2, this.generateObstacle, this);
@@ -99,7 +117,7 @@ Game.prototype = {
     generateObstacle: function() {
         var obstacle = this.obstacles.getFirstExists(false);
         if (!obstacle) {
-            obstacle = new Obstacle(this.game, this.game.width, this.game.height / 2-10, 'obstacles', 6);
+            obstacle = new Obstacle(this.game, this.game.width, this.game.height / 2 - 10, 'obstacles', 6);
             this.obstacles.add(obstacle);
         } else {
             obstacle.reset(this.game.width, this.game.height / 2);
@@ -110,10 +128,14 @@ Game.prototype = {
 
         obstacle.body.velocity.x = 0;
 
+        this.replayBtn.visible = true;
+
         this.player.stop();
         this.player.frame = 4; //TODO a dead frame
 
         this.ground.stop();
+        this.background.stop();
+        
 
         this.obstacleGenerator.timer.stop();
 
@@ -124,7 +146,10 @@ Game.prototype = {
         }
     },
     shutdown: function() {
-
+        this.game.input.keyboard.removeKey(Phaser.Keyboard.SPACEBAR);
+        this.game.input.keyboard.removeKey(this.arrow);
+        this.player.destroy();
+        this.obstacles.destroy();
     }
 };
 

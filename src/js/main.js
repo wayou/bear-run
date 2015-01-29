@@ -17,6 +17,7 @@ game.global = {
     isOver: false,
     status: 0, //0 not started|1 started|2 game over
     level: 1,
+    maxRatio:3,
     ratio: 1 //determie the scrolling speed and the frequency of the obstacles,increase with the time elapsed
 }
 

@@ -25,8 +25,13 @@ Preloader.prototype = {
         //the ground
         this.load.image('ground', 'assets/ground.jpg');
 
+        //background clouds
+        this.load.image('cloud1', 'assets/cloud1.png');
+        this.load.image('cloud2', 'assets/cloud2.png');
+
         //the button
         this.load.image('startBtn', 'assets/start-button.png');
+        this.load.image('replayBtn', 'assets/replay.png');
 
         //obstacles
         this.load.spritesheet('obstacles', 'assets/obstacles.png', 80, 60);
@@ -35,7 +40,7 @@ Preloader.prototype = {
         this.load.audio('scored', 'assets/snd/scored.mp3');
 
         //the font
-        this.load.bitmapFont('minecraftfnt', 'assets/font/minecraftia.png', 'assets/font/minecraftia.xml');
+        this.load.bitmapFont('fnt', 'assets/font/coder.png', 'assets/font/coder.fnt');
 
     },
 
