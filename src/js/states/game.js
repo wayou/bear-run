@@ -35,6 +35,7 @@ Game.prototype = {
 
         //sound
         this.scoreSnd = this.game.add.audio('scored');
+        this.gameOverSnd = this.game.add.audio('gameOver');
 
         /*key control*/
         this.arrow = this.game.input.keyboard.createCursorKeys();
@@ -93,9 +94,17 @@ Game.prototype = {
             //debug
             // this.game.debug.body(obstacle);
 
-            this.game.physics.arcade.overlap(this.player, obstacle, this.gameOver, null, this);
+            this.game.physics.arcade.overlap(this.player, obstacle, this.gameOver, this.shouldGameover, this);
         }, this);
 
+    },
+    shouldGameover: function() {
+        //if status is 2, the game already stopped,prevent the gameOver callback to execute
+        if (this.game.global.status != 2) {
+            return true;
+        } else {
+            return false;
+        }
     },
     startGame: function() {
 
@@ -135,7 +144,6 @@ Game.prototype = {
 
         this.ground.stop();
         this.background.stop();
-        
 
         this.obstacleGenerator.timer.stop();
 
@@ -144,6 +152,7 @@ Game.prototype = {
             this.game.global.highScore = this.game.global.score;
             localStorage && localStorage.setItem('bear-run-high-score', this.game.global.score);
         }
+        this.gameOverSnd.play();
     },
     shutdown: function() {
         this.game.input.keyboard.removeKey(Phaser.Keyboard.SPACEBAR);

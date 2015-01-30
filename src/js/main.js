@@ -2,8 +2,17 @@
  * bear run
  * this is a html5 web game built with phaser
  * and inspired by chorme offline hidden game t-rex runner
- * v0.1.0
+ * v0.1.1
  * for more info pls head to https://github.com/wayou/bear-run
+ *
+ *credits:
+ *-score snd http://www.freesound.org/people/Cabeeno%20Rossley/sounds/126422/
+ *- gameover snd http://www.freesound.org/people/fins/sounds/146734/
+ *- jump snd http://www.freesound.org/people/LloydEvans09/sounds/187024/
+ *
+ * convert wav audio to mp3 http://media.io/
+ * v0.1.1
+ * - add sound for game over
  */
 
 'use strict';
