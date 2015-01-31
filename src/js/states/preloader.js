@@ -38,6 +38,7 @@ Preloader.prototype = {
 
         this.load.audio('jump', 'assets/snd/jump.mp3');
         this.load.audio('scored', 'assets/snd/scored.mp3');
+        this.load.audio('gameOver', 'assets/snd/game-over.mp3');
 
         //the font
         this.load.bitmapFont('fnt', 'assets/font/coder.png', 'assets/font/coder.fnt');
