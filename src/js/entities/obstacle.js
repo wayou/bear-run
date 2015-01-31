@@ -8,6 +8,7 @@ var Obstacle = function(game, x, y, key, frame) {
 
     this.body.velocity.x = -200;
 
+    this.checkWorldBounds = true;
     this.outOfBoundsKill = true;
 
 };

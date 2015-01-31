@@ -99,7 +99,9 @@ Game.prototype = {
     },
     startGame: function() {
 
-        if (this.game.global.status != 0) return;
+        if (this.game.global.status !== 0) {
+            return;
+        }
 
         this.game.global.status = 1;
 
@@ -118,10 +120,13 @@ Game.prototype = {
         var obstacle = this.obstacles.getFirstExists(false);
         if (!obstacle) {
             obstacle = new Obstacle(this.game, this.game.width, this.game.height / 2 - 10, 'obstacles', 6);
+
             this.obstacles.add(obstacle);
         } else {
-            obstacle.reset(this.game.width, this.game.height / 2);
+            obstacle.reset(this.game.width, this.game.height / 2 - 10);
+            obstacle.body.velocity.x = -200;
         }
+
     },
     gameOver: function(player, obstacle) {
         this.game.global.status = 2;
@@ -135,7 +140,6 @@ Game.prototype = {
 
         this.ground.stop();
         this.background.stop();
-        
 
         this.obstacleGenerator.timer.stop();
 
