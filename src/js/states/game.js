@@ -16,14 +16,19 @@ Game.prototype = {
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
         this.game.physics.arcade.gravity.y = 1500;
 
-        //place the ground
+        //place the background
         this.background = new Background(this.game);
 
-        //fill the bottom half screen
         this.game.add.existing(this.background);
 
+        //the bottom background
+        this.bottomGroundGraphics = this.game.add.graphics(0, 0);
+        this.bottomGroundGraphics.lineStyle(0);
+        this.bottomGroundGraphics.beginFill(0x9D6C05, 1);
+        this.bottomGroundGraphics.drawRect(0, this.game.height / 2, this.game.width, this.game.height / 2);
+
         //place the ground
-        this.ground = new Ground(this.game, 0, this.game.height / 2, 335, 312, 'ground');
+        this.ground = new Ground(this.game, 0, this.game.height / 2, 335, 25, 'ground');
         //fill the bottom half screen
         this.game.add.existing(this.ground);
 
@@ -59,8 +64,12 @@ Game.prototype = {
         /*key control end*/
 
         //display score
-        this.scoreBoard = this.game.add.bitmapText(10, 10, 'fnt', 'BEST:' + this.game.global.highScore + '  SCORE:0', 32);
-        this.scoreBoard.align = 'right';
+        //fix me the font size not working
+        this.scoreBoard = this.game.add.text(10, 10, 'BEST:' + this.game.global.highScore + '  SCORE:0', {
+            font: '16px arial',
+            fill: '#fff',
+            stroke: '1px solid #000'
+        });
 
         this.replayBtn = this.game.add.button(this.game.width / 2, this.game.height / 2, 'replayBtn', this.replay, this);
         this.replayBtn.anchor.setTo(0.5, 0.5);
@@ -78,7 +87,7 @@ Game.prototype = {
 
         this.game.physics.arcade.collide(this.player, this.ground);
 
-        if (this.game.global.status == 1) {
+        if (this.game.global.status === 1) {
 
             this.game.global.score = Math.floor(this.game.time.elapsedSince(this.timeMark) / 100);
 
@@ -100,7 +109,7 @@ Game.prototype = {
     },
     shouldGameover: function() {
         //if status is 2, the game already stopped,prevent the gameOver callback to execute
-        if (this.game.global.status != 2) {
+        if (this.game.global.status !== 2) {
             return true;
         } else {
             return false;
@@ -128,11 +137,11 @@ Game.prototype = {
     generateObstacle: function() {
         var obstacle = this.obstacles.getFirstExists(false);
         if (!obstacle) {
-            obstacle = new Obstacle(this.game, this.game.width, this.game.height / 2 - 10, 'obstacles', 6);
+            obstacle = new Obstacle(this.game, this.game.width, this.game.height / 2 - 30, 'dustbin');
 
             this.obstacles.add(obstacle);
         } else {
-            obstacle.reset(this.game.width, this.game.height / 2 - 10);
+            obstacle.reset(this.game.width, this.game.height / 2 - 30);
             obstacle.body.velocity.x = -200;
         }
 
@@ -144,8 +153,11 @@ Game.prototype = {
 
         this.replayBtn.visible = true;
 
-        this.player.stop();
-        this.player.frame = 4; //TODO a dead frame
+        player.stop();
+
+        player.body.gravity = 0;
+
+        // this.player.frame = 4; //TODO a dead frame
 
         this.ground.stop();
         this.background.stop();

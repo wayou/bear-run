@@ -9,7 +9,7 @@ var Player = function(game, x, y, key, frame) {
 
     this.anchor.setTo(0.5, 0.5);
 
-    this.body.collideWorldBounds = true;
+    // this.body.collideWorldBounds = true;
 
     this.jumpSnd = this.game.add.audio('jump');
 
@@ -17,7 +17,7 @@ var Player = function(game, x, y, key, frame) {
 
     //set jump frame alternately
     this.jumpFrame = 6; //true for frame 6 and false for 8
-}
+};
 
 Player.prototype = Object.create(Phaser.Sprite.prototype);
 Player.prototype.constructor = Player;
@@ -38,7 +38,7 @@ Player.prototype.jump = function() {
         //toggle jump frame
         this.jumpFrame = this.jumpFrame == 6 ? 8 : 6
         this.frame = this.jumpFrame;
-        
+
         this.jumpSnd.play();
     }
 };
