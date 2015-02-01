@@ -151,11 +151,18 @@ Game.prototype = {
 
         obstacle.body.velocity.x = 0;
 
-        this.replayBtn.visible = true;
-
         player.stop();
 
+        this.replayBtn.visible = true;
         player.body.gravity = 0;
+
+        //todo : delay the player's gravity and show replay button
+        // var timer = this.game.time.create(1000, false);
+        // timer.add(1000);
+        // timer.onEvent.add(function(){
+        //     this.replayBtn.visible = true;
+        // }, this);
+        // timer.start();
 
         // this.player.frame = 4; //TODO a dead frame
 

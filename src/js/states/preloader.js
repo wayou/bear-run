@@ -80,7 +80,8 @@ Preloader.prototype = {
     },
     fileComplete: function(progress, cacheKey, success, totalLoaded, totalFiles) {
 
-        this.loadingText.setText("File Complete: " + progress + "% - " + totalLoaded + " out of " + totalFiles);
+        this.loadingText.setText("资源加载中，已完成: " + progress + "%");
+        // this.loadingText.setText("资源加载中，已完成: " + progress + "% - " + totalLoaded + " 总共：" + totalFiles);
 
         this.preloadBar.scale.x = progress * 0.01;
 
