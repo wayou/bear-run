@@ -77,8 +77,9 @@ Game.prototype = {
 
     },
     replay: function() {
-        this.game.global.status = 0;
+
         this.game.state.start('Game');
+
     },
 
     update: function() {
@@ -92,11 +93,18 @@ Game.prototype = {
             this.game.global.score = Math.floor(this.game.time.elapsedSince(this.timeMark) / 100);
 
             //play sound every 100 score acchieved
-            if (this.game.global.score && !(this.game.global.score % 100)) {
+            if (this.game.global.score /*in case the very first time the score was ZERO*/ && !(this.game.global.score % 100 /*level up every 10 sec*/ )) {
+                //update the game speed when level up
+                if (this.game.global.speed > this.game.global.MAX_SPEED) {
+                    this.game.global.speed += this.game.global.RATIO;
+                    this.ground.scroll(this.game.global.speed);
+                }
+
                 this.scoreSnd.play();
             }
 
             this.scoreBoard.text = 'BEST:' + this.game.global.highScore + '  SCORE:' + this.game.global.score;
+
         }
 
         this.obstacles.forEach(function(obstacle) {
@@ -108,8 +116,8 @@ Game.prototype = {
 
     },
     shouldGameover: function() {
-        //if status is 2, the game already stopped,prevent the gameOver callback to execute
-        if (this.game.global.status !== 2) {
+        //if status is 0, the game already stopped,prevent the gameOver callback to execute
+        if (this.game.global.status === 1) {
             return true;
         } else {
             return false;
@@ -126,7 +134,7 @@ Game.prototype = {
         this.timeMark = this.game.time.time;
 
         this.player.run();
-        this.ground.scroll();
+        this.ground.scroll(this.game.global.speed);
         this.background.scroll();
 
         // add a timer
@@ -135,19 +143,21 @@ Game.prototype = {
         this.obstacleGenerator.timer.start();
     },
     generateObstacle: function() {
+        var x = this.game.rnd.integerInRange(this.game.width, this.game.width + 100);
+
         var obstacle = this.obstacles.getFirstExists(false);
         if (!obstacle) {
-            obstacle = new Obstacle(this.game, this.game.width, this.game.height / 2 - 30, 'dustbin');
-
+            obstacle = new Obstacle(this.game, x, this.game.height / 2 - 30, 'dustbin');
             this.obstacles.add(obstacle);
         } else {
-            obstacle.reset(this.game.width, this.game.height / 2 - 30);
-            obstacle.body.velocity.x = -200;
+            obstacle.reset(x, this.game.height / 2 - 30);
+            obstacle.body.velocity.x = this.game.global.speed;
         }
 
     },
     gameOver: function(player, obstacle) {
-        this.game.global.status = 2;
+        this.game.global.status = 0;
+        this.game.global.speed = -200;
 
         obstacle.body.velocity.x = 0;
 
@@ -183,6 +193,12 @@ Game.prototype = {
         this.game.input.keyboard.removeKey(this.arrow);
         this.player.destroy();
         this.obstacles.destroy();
+        this.ground.destroy();
+        this.bottomGroundGraphics.destroy();
+        this.obstacleGenerator.timer.destroy();
+    },
+    render:function(){
+         this.game.debug.text(this.game.global.speed);
     }
 };
 

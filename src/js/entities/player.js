@@ -26,13 +26,13 @@ Player.prototype.constructor = Player;
  * Automatically called by World.update
  */
 Player.prototype.update = function() {
-    if (this.body.touching.down && this.game.global.status == 1) {
+    if (this.body.touching.down && this.game.global.status === 1) {
         this.run();
     }
 };
 
 Player.prototype.jump = function() {
-    if (this.body.touching.down && this.game.global.status != 2) {
+    if (this.body.touching.down && this.game.global.status ===1) {
         this.body.velocity.y = -600;
         this.stop();
         //toggle jump frame

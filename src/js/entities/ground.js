@@ -17,8 +17,8 @@ Ground.prototype.update = function() {
     // write your prefab's specific update code here  
 };
 
-Ground.prototype.scroll = function() {
-    this.autoScroll(-200, 0);
+Ground.prototype.scroll = function(speed) {
+    this.autoScroll(speed, 0);
 };
 
 Ground.prototype.stop = function() {
