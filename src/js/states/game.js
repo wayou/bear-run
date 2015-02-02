@@ -93,17 +93,21 @@ Game.prototype = {
             this.game.global.score = Math.floor(this.game.time.elapsedSince(this.timeMark) / 100);
 
             //play sound every 100 score acchieved
+            //FIX ME: the level up get executed several times
             if (this.game.global.score /*in case the very first time the score was ZERO*/ && !(this.game.global.score % 100 /*level up every 10 sec*/ )) {
-                //update the game speed when level up
-                if (this.game.global.speed > this.game.global.MAX_SPEED) {
-                    this.game.global.speed += this.game.global.RATIO;
-                    this.ground.scroll(this.game.global.speed);
-                }
+                // //update the game speed when level up
+                // if (this.game.global.speed > this.game.global.MAX_SPEED) {
+                //     this.game.global.speed += this.game.global.RATIO;
+                //     this.ground.scroll(this.game.global.speed);
 
-                this.scoreSnd.play();
+                //     console.log('scored!');
+                // }
+
+                // this.scoreSnd.play();
             }
 
-            this.scoreBoard.text = 'BEST:' + this.game.global.highScore + '  SCORE:' + this.game.global.score;
+            this.scoreBoard.text = 'BEST:' + this.game.global.highScore + '  SCORE:' + this.game.global.score + 'SPEED:' + this.game.global.speed;
+            // this.scoreBoard.text = this.game.time.events.ms;
 
         }
 
@@ -141,6 +145,18 @@ Game.prototype = {
         this.obstacleGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 2, this.generateObstacle, this);
 
         this.obstacleGenerator.timer.start();
+
+    },
+    levelup: function() {
+        //update the game speed when level up
+        if (this.game.global.speed > this.game.global.MAX_SPEED) {
+            this.game.global.speed += this.game.global.RATIO;
+            this.ground.scroll(this.game.global.speed);
+
+            console.log('scored!');
+        }
+
+        this.scoreSnd.play();
     },
     generateObstacle: function() {
         var x = this.game.rnd.integerInRange(this.game.width, this.game.width + 100);
@@ -196,10 +212,11 @@ Game.prototype = {
         this.ground.destroy();
         this.bottomGroundGraphics.destroy();
         this.obstacleGenerator.timer.destroy();
-    },
-    render:function(){
-         this.game.debug.text(this.game.global.speed);
     }
+    //fix me : why this not working
+    // render: function() {
+    //     this.game.debug.text('current speed:' + (-this.game.global.speed));
+    // }
 };
 
 module.exports = Game;
