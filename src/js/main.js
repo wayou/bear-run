@@ -43,7 +43,7 @@ game.global = {
     status: 0, //0 not started|1 started
     speed: -200,
     RATIO: -10, //how fast the speed grow during the game running
-    MAX_SPEED: -400
+    MAX_SPEED: -500
 };
 
 window.Utils = require('./utils');
