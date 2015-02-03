@@ -84,13 +84,13 @@ Game.prototype = {
 
     update: function() {
         //print debug info and show sprite box
-        this.game.debug.body(this.player);
+        // this.game.debug.body(this.player);
 
         this.game.physics.arcade.collide(this.player, this.ground);
 
         this.obstacles.forEach(function(obstacle) {
             //debug
-            this.game.debug.body(obstacle);
+            // this.game.debug.body(obstacle);
 
             this.game.physics.arcade.overlap(this.player, obstacle, this.gameOver, this.shouldGameover, this);
         }, this);
@@ -189,7 +189,6 @@ Game.prototype = {
         this.background.stop();
 
         // this.obstacleGenerator.timer.stop();
-        this.gameTimer.removeAll();
         this.gameTimer.stop();
         // this.scoreTimer.stop();
 
@@ -205,12 +204,11 @@ Game.prototype = {
     shutdown: function() {
         this.game.input.keyboard.removeKey(Phaser.Keyboard.SPACEBAR);
         this.game.input.keyboard.removeKey(this.arrow);
-        // this.game.input.destroy();
         this.player.destroy();
         this.obstacles.destroy();
         this.ground.destroy();
         this.bottomGroundGraphics.destroy();
-        // this.obstacleGenerator.timer.destroy();
+        this.gameTimer.removeAll();
         this.gameTimer.destroy();
     }
     //fix me : why this not working
