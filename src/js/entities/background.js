@@ -6,8 +6,8 @@ var Background = function(game, parent) {
 
     Phaser.Group.call(this, game, parent);
 
-    this.add(new Cloud(this.game, 0, 0, 640, 480, 'cloud1', -60));
-    this.add(new Cloud(this.game, 0, 0, 640, 480, 'cloud2', -20));
+    this.add(new Cloud(this.game, 0, 0, 640, 240, 'cloud1', -60));
+    this.add(new Cloud(this.game, 0, 0, 640, 240, 'cloud2', -20));
 
 };
 

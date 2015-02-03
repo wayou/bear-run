@@ -36,7 +36,7 @@ Player.prototype.update = function() {
 
 Player.prototype.jump = function() {
     if (this.body.touching.down && this.game.global.status === 1) {
-        this.body.velocity.y = -600;
+        this.body.velocity.y = -500;
         this.stop();
         //toggle jump frame
         this.jumpFrame = this.jumpFrame == 6 ? 8 : 6

@@ -167,8 +167,8 @@ Game.prototype = {
 
         this.game.global.score += 1;
 
-        //generate obstacle every 1.4 sec
-        if (this.game.global.score % 14 === 0) {
+        //generate obstacle every 1 sec
+        if (this.game.global.score % 11 === 0) {
             this.generateObstacle();
         }
 
@@ -176,7 +176,7 @@ Game.prototype = {
         if (!(this.game.global.score % 100)) {
             //update the game speed when level up
             if (this.game.global.speed > this.game.global.MAX_SPEED) {
-                this.game.global.speed += this.game.global.RATIO;
+                this.game.global.peed += this.game.global.RATIO;
                 this.ground.scroll(this.game.global.speed);
             }
 
@@ -196,7 +196,7 @@ Game.prototype = {
 
     },
     generateObstacle: function() {
-        var x = this.game.rnd.integerInRange(this.game.width, this.game.width + 100);
+        var x = this.game.rnd.integerInRange(this.game.width, this.game.width+150);
 
         var obstacle = this.obstacles.getFirstExists(false);
         if (!obstacle) {
@@ -210,7 +210,7 @@ Game.prototype = {
     },
     gameOver: function(player, obstacle) {
         this.game.global.status = 0;
-        this.game.global.speed = -200;
+        this.game.global.speed = -300;
 
         this.obstacles.setAll('body.velocity.x', 0);
 
