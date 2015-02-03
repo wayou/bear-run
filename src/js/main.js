@@ -21,6 +21,11 @@
 
  * CHANGELOG
  
+ * v0.5.1
+ * - optimize the blink rate
+ * - increase the game ratio from -20 to -25
+ * - increase the MAX_SPEED from -500 to -600
+
  * v0.5.0
  * - blink the score when level up
  * - increase the game ratio from -10 to -20
@@ -59,8 +64,8 @@ game.global = {
     highScore: localStorage && localStorage.getItem('bear-run-high-score') || 0, //get the high score from local storage if possible
     status: 0, //0 not started|1 started
     speed: -200,
-    RATIO: -20, //how fast the speed grow during the game running
-    MAX_SPEED: -550
+    RATIO: -25, //how fast the speed grow during the game running
+    MAX_SPEED: -600
 };
 
 window.Utils = require('./utils');

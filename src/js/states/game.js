@@ -188,7 +188,7 @@ Game.prototype = {
             // fix me: does this implementation will create a new tween every time and the previous are still exists? if so there will be potential memory leak
             this.game.add.tween(this.score).to({
                 alpha: 1
-            }, 100, Phaser.Easing.Linear.NONE, true, 0, 4, false);
+            }, 300, Phaser.Easing.Linear.NONE, true, 0, 4, false);
         }
 
         // this.scoreBoard.text = 'BEST:' + this.game.global.highScore + '  SCORE:' + this.game.global.score;
