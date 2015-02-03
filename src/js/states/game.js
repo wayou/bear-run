@@ -84,13 +84,13 @@ Game.prototype = {
 
     update: function() {
         //print debug info and show sprite box
-        // this.game.debug.body(this.player);
+        this.game.debug.body(this.player);
 
         this.game.physics.arcade.collide(this.player, this.ground);
 
         this.obstacles.forEach(function(obstacle) {
             //debug
-            // this.game.debug.body(obstacle);
+            this.game.debug.body(obstacle);
 
             this.game.physics.arcade.overlap(this.player, obstacle, this.gameOver, this.shouldGameover, this);
         }, this);
@@ -159,27 +159,6 @@ Game.prototype = {
         this.scoreBoard.text = 'BEST:' + this.game.global.highScore + '  SCORE:' + this.game.global.score;
 
     },
-    levelup: function() {
-
-        if (this.game.global.status !== 1) {
-            return;
-        }
-
-        this.game.global.score += 1;
-        if (!(this.game.global.score % 100 /*level up every 10 sec*/ )) {
-            //update the game speed when level up
-            if (this.game.global.speed > this.game.global.MAX_SPEED) {
-                this.game.global.speed += this.game.global.RATIO;
-                this.ground.scroll(this.game.global.speed);
-
-                console.log('scored!');
-            }
-
-            this.scoreSnd.play();
-        }
-
-        this.scoreBoard.text = 'BEST:' + this.game.global.highScore + '  SCORE:' + this.game.global.score + 'SPEED:' + this.game.global.speed;
-    },
     generateObstacle: function() {
         var x = this.game.rnd.integerInRange(this.game.width, this.game.width + 100);
 
@@ -203,14 +182,6 @@ Game.prototype = {
 
         this.replayBtn.visible = true;
         player.body.gravity = 0;
-
-        //todo : delay the player's gravity and show replay button
-        // var timer = this.game.time.create(1000, false);
-        // timer.add(1000);
-        // timer.onEvent.add(function(){
-        //     this.replayBtn.visible = true;
-        // }, this);
-        // timer.start();
 
         // this.player.frame = 4; //TODO a dead frame
 

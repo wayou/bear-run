@@ -9,6 +9,9 @@ var Player = function(game, x, y, key, frame) {
 
     this.anchor.setTo(0.5, 0.5);
 
+    //decrease the collide body for better experience
+    this.body.setSize(this.body.width-15,this.body.height);
+
     // this.body.collideWorldBounds = true;
 
     this.jumpSnd = this.game.add.audio('jump');
@@ -32,7 +35,7 @@ Player.prototype.update = function() {
 };
 
 Player.prototype.jump = function() {
-    if (this.body.touching.down && this.game.global.status ===1) {
+    if (this.body.touching.down && this.game.global.status === 1) {
         this.body.velocity.y = -600;
         this.stop();
         //toggle jump frame
