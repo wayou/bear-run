@@ -88,28 +88,6 @@ Game.prototype = {
 
         this.game.physics.arcade.collide(this.player, this.ground);
 
-        // if (this.game.global.status === 1) {
-
-        //     this.game.global.score = Math.floor(this.game.time.elapsedSince(this.timeMark) / 100);
-
-        //     //play sound every 100 score acchieved
-        //     //FIX ME: the level up get executed several times
-        //     if (this.game.global.score /*in case the very first time the score was ZERO*/ && !(this.game.global.score % 100 /*level up every 10 sec*/ )) {
-        //         // //update the game speed when level up
-        //         // if (this.game.global.speed > this.game.global.MAX_SPEED) {
-        //         //     this.game.global.speed += this.game.global.RATIO;
-        //         //     this.ground.scroll(this.game.global.speed);
-
-        //         //     console.log('scored!');
-        //         // }
-
-        //         // this.scoreSnd.play();
-        //     }
-
-        //     this.scoreBoard.text = 'BEST:' + this.game.global.highScore + '  SCORE:' + this.game.global.score + 'SPEED:' + this.game.global.speed;
-
-        // }
-
         this.obstacles.forEach(function(obstacle) {
             //debug
             // this.game.debug.body(obstacle);
@@ -127,8 +105,6 @@ Game.prototype = {
         }
     },
     startGame: function() {
-
-        console.log('game started');
 
         if (this.game.global.status !== 0) {
             return;
@@ -169,20 +145,18 @@ Game.prototype = {
             this.generateObstacle();
         }
 
-        /*level up every 10 sec*/ 
-        if (!(this.game.global.score % 100 )) {
+        /*level up every 10 sec*/
+        if (!(this.game.global.score % 100)) {
             //update the game speed when level up
             if (this.game.global.speed > this.game.global.MAX_SPEED) {
                 this.game.global.speed += this.game.global.RATIO;
                 this.ground.scroll(this.game.global.speed);
-
-                console.log('scored!');
             }
 
             this.scoreSnd.play();
         }
 
-        this.scoreBoard.text = 'BEST:' + this.game.global.highScore + '  SCORE:' + this.game.global.score + 'SPEED:' + this.game.global.speed;
+        this.scoreBoard.text = 'BEST:' + this.game.global.highScore + '  SCORE:' + this.game.global.score;
 
     },
     levelup: function() {
@@ -244,14 +218,16 @@ Game.prototype = {
         this.background.stop();
 
         // this.obstacleGenerator.timer.stop();
+        this.gameTimer.removeAll();
         this.gameTimer.stop();
         // this.scoreTimer.stop();
 
         //update high score
         if (this.game.global.highScore < this.game.global.score) {
             this.game.global.highScore = this.game.global.score;
-            localStorage && localStorage.setItem('bear-run-high-score', this.game.global.score);
+            localStorage && localStorage.setItem('bear-run-high-score', this.game.global.highScore);
         }
+        this.game.global.score = 0;
         this.gameOverSnd.play();
 
     },
@@ -265,7 +241,6 @@ Game.prototype = {
         this.bottomGroundGraphics.destroy();
         // this.obstacleGenerator.timer.destroy();
         this.gameTimer.destroy();
-        // this.scoreTimer.destroy();
     }
     //fix me : why this not working
     // render: function() {
