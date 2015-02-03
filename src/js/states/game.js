@@ -77,19 +77,23 @@ Game.prototype = {
             fill: '#fff',
             stroke: '1px solid #000'
         };
+
         this.highScore = this.game.add.text(0, 0, 'BEST:' + this.game.global.highScore, style);
+        this.highScore.anchor.setTo(0.5, 0.5);
+
         this.score = this.game.add.text(100, 0, '  SCORE:0', style);
+        this.score.anchor.setTo(0.5, 0.5);
 
-        this.shineScore = this.game.add.tween(this.score).to({
-            fontSize: 20
-        }, 100, Phaser.Easing.Linear.NONE, false, 0, 4, true);
+        // this.shineScore = this.game.add.tween(this.score).to({
+        //     alpha : 1
+        // }, 100, Phaser.Easing.Linear.NONE, false, 0, 4, false);
 
-        this.shineScore.onComplete.add(this.resetScoreText, this);
+        // this.shineScore.onComplete.add(this.resetScoreText, this);
 
         this.scoreBoard.add(this.highScore);
         this.scoreBoard.add(this.score);
-        this.scoreBoard.x = 10;
-        this.scoreBoard.y = 10;
+        this.scoreBoard.x = 50;
+        this.scoreBoard.y = 20;
 
         this.replayBtn = this.game.add.button(this.game.width / 2, this.game.height / 2, 'replayBtn', this.replay, this);
         this.replayBtn.anchor.setTo(0.5, 0.5);
@@ -97,14 +101,12 @@ Game.prototype = {
 
     },
     //fix me : this not working
-    resetScoreText: function() {
-        this.shineScore.fontSize = 16;
-        console.log(this.shineScore.fontSize);
-    },
+    // resetScoreText: function() {
+    //     // this.score.fontSize = 16;
+    //     // this.score.color = '#ffffff';
+    // },
     replay: function() {
-
         this.game.state.start('Game');
-
     },
 
     update: function() {
@@ -181,15 +183,18 @@ Game.prototype = {
             this.scoreSnd.play();
 
             //highlight the score text
-            this.shineScore.start();
-            this.shineScore.fontSize = 16;
+            this.score.alpha = 0;
+            // this.shineScore.start();
+            // fix me: does this implementation will create a new tween every time and the previous are still exists? if so there will be potential memory leak
+            this.game.add.tween(this.score).to({
+                alpha: 1
+            }, 100, Phaser.Easing.Linear.NONE, true, 0, 4, false);
         }
 
         // this.scoreBoard.text = 'BEST:' + this.game.global.highScore + '  SCORE:' + this.game.global.score;
         this.score.text = '  SCORE:' + this.game.global.score;
 
     },
-    highlightScore: function() {},
     generateObstacle: function() {
         var x = this.game.rnd.integerInRange(this.game.width, this.game.width + 100);
 

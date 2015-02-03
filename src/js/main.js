@@ -2,7 +2,7 @@
  * bear run
  * this is a html5 web game built with phaser
  * and inspired by chorme offline hidden game t-rex runner
- * v0.4.0
+ * v0.5.0
  * for more info pls head to https://github.com/wayou/bear-run
  *
  *credits:
@@ -21,6 +21,10 @@
 
  * CHANGELOG
  
+ * v0.5.0
+ * - blink the score when level up
+ * - increase the game ratio from -10 to -20
+
  * v0.4.0
  * - resize the collide body for sprites for better experience
 
@@ -28,7 +32,7 @@
  * - fix timer and the score
  
  * v0.3.0
- * - speed up scrolling when levell up
+ * - speed up scrolling when level up
  * - introduce debug
  
  * v0.2.0
@@ -55,7 +59,7 @@ game.global = {
     highScore: localStorage && localStorage.getItem('bear-run-high-score') || 0, //get the high score from local storage if possible
     status: 0, //0 not started|1 started
     speed: -200,
-    RATIO: -10, //how fast the speed grow during the game running
+    RATIO: -20, //how fast the speed grow during the game running
     MAX_SPEED: -550
 };
 
