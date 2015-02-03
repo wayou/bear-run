@@ -64,17 +64,42 @@ Game.prototype = {
         /*key control end*/
 
         //display score
-        //fix me the font size not working
-        this.scoreBoard = this.game.add.text(10, 10, 'BEST:' + this.game.global.highScore + '  SCORE:0', {
+        // this.scoreBoard = this.game.add.text(10, 10, 'BEST:' + this.game.global.highScore + '  SCORE:0', {
+        //     font: '16px arial',
+        //     fill: '#fff',
+        //     stroke: '1px solid #000'
+        // });
+
+        //in order to highlight the score when level up, we need to split the high score and the normal score, put them into a group for better managment 
+        this.scoreBoard = this.game.add.group();
+        var style = {
             font: '16px arial',
             fill: '#fff',
             stroke: '1px solid #000'
-        });
+        };
+        this.highScore = this.game.add.text(0, 0, 'BEST:' + this.game.global.highScore, style);
+        this.score = this.game.add.text(100, 0, '  SCORE:0', style);
+
+        this.shineScore = this.game.add.tween(this.score).to({
+            fontSize: 20
+        }, 100, Phaser.Easing.Linear.NONE, false, 0, 4, true);
+
+        this.shineScore.onComplete.add(this.resetScoreText, this);
+
+        this.scoreBoard.add(this.highScore);
+        this.scoreBoard.add(this.score);
+        this.scoreBoard.x = 10;
+        this.scoreBoard.y = 10;
 
         this.replayBtn = this.game.add.button(this.game.width / 2, this.game.height / 2, 'replayBtn', this.replay, this);
         this.replayBtn.anchor.setTo(0.5, 0.5);
         this.replayBtn.visible = false;
 
+    },
+    //fix me : this not working
+    resetScoreText: function() {
+        this.shineScore.fontSize = 16;
+        console.log(this.shineScore.fontSize);
     },
     replay: function() {
 
@@ -154,11 +179,17 @@ Game.prototype = {
             }
 
             this.scoreSnd.play();
+
+            //highlight the score text
+            this.shineScore.start();
+            this.shineScore.fontSize = 16;
         }
 
-        this.scoreBoard.text = 'BEST:' + this.game.global.highScore + '  SCORE:' + this.game.global.score;
+        // this.scoreBoard.text = 'BEST:' + this.game.global.highScore + '  SCORE:' + this.game.global.score;
+        this.score.text = '  SCORE:' + this.game.global.score;
 
     },
+    highlightScore: function() {},
     generateObstacle: function() {
         var x = this.game.rnd.integerInRange(this.game.width, this.game.width + 100);
 
