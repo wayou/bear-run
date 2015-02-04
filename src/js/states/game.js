@@ -75,36 +75,27 @@ Game.prototype = {
         var style = {
             font: '16px arial',
             fill: '#fff',
-            stroke: '1px solid #000'
+            stroke: '#000',
+            fontWeight:'bold',
+            strokeThickness: 2
         };
 
         this.highScore = this.game.add.text(0, 0, 'BEST:' + this.game.global.highScore, style);
-        this.highScore.anchor.setTo(0.5, 0.5);
+        // this.highScore.anchor.setTo(0.5, 0.5);
 
         this.score = this.game.add.text(100, 0, '  SCORE:0', style);
-        this.score.anchor.setTo(0.5, 0.5);
-
-        // this.shineScore = this.game.add.tween(this.score).to({
-        //     alpha : 1
-        // }, 100, Phaser.Easing.Linear.NONE, false, 0, 4, false);
-
-        // this.shineScore.onComplete.add(this.resetScoreText, this);
+        // this.score.anchor.setTo(0.5, 0.5);
 
         this.scoreBoard.add(this.highScore);
         this.scoreBoard.add(this.score);
-        this.scoreBoard.x = 50;
-        this.scoreBoard.y = 20;
+        this.scoreBoard.x = 10;
+        this.scoreBoard.y = 10;
 
         this.replayBtn = this.game.add.button(this.game.width / 2, this.game.height / 2, 'replayBtn', this.replay, this);
         this.replayBtn.anchor.setTo(0.5, 0.5);
         this.replayBtn.visible = false;
 
     },
-    //fix me : this not working
-    // resetScoreText: function() {
-    //     // this.score.fontSize = 16;
-    //     // this.score.color = '#ffffff';
-    // },
     replay: function() {
         this.game.state.start('Game');
     },
@@ -196,7 +187,7 @@ Game.prototype = {
 
     },
     generateObstacle: function() {
-        var x = this.game.rnd.integerInRange(this.game.width, this.game.width+150);
+        var x = this.game.rnd.integerInRange(this.game.width, this.game.width + 150);
 
         var obstacle = this.obstacles.getFirstExists(false);
         if (!obstacle) {
