@@ -67,7 +67,7 @@ var game = new Phaser.Game(320, 480, Phaser.AUTO, '');
 // var game = new Phaser.Game(320, 480, Phaser.CANVAS, '');
 
 game.global = {
-    score: 99990,
+    score: 0,
     highScore: localStorage && localStorage.getItem('bear-run-high-score') || 0, //get the high score from local storage if possible
     status: 0, //0 not started|1 started
     speed: -300,
