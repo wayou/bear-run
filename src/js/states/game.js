@@ -70,12 +70,6 @@ Game.prototype = {
         /*key control end*/
 
         //display score
-        // this.scoreBoard = this.game.add.text(10, 10, 'BEST:' + this.game.global.highScore + '  SCORE:0', {
-        //     font: '16px arial',
-        //     fill: '#fff',
-        //     stroke: '1px solid #000'
-        // });
-
         //in order to highlight the score when level up, we need to split the high score and the normal score, put them into a group for better managment 
         this.scoreBoard = this.game.add.group();
         var style = {
@@ -139,9 +133,9 @@ Game.prototype = {
         this.game.global.status = 1;
 
         //fix a bug
-        this.game.input.onDown.remove(this.startGame,this);
-        this.arrow.up.onDown.remove(this.startGame,this);
-        this.spacebar.onDown.remove(this.startGame,this);
+        this.game.input.onDown.remove(this.startGame, this);
+        this.arrow.up.onDown.remove(this.startGame, this);
+        this.spacebar.onDown.remove(this.startGame, this);
 
         this.player.run();
         this.ground.scroll(this.game.global.speed);
@@ -245,14 +239,12 @@ Game.prototype = {
         this.game.global.status = 0;
         this.game.global.speed = -300;
 
-        // this.game.input.destroy();
-
         this.obstacles.setAll('body.velocity.x', 0);
 
         player.stop();
 
         this.replayBtn.visible = true;
-        player.body.gravity = 0;
+        player.body.gravity.y = 0;
 
         // this.player.frame = 4; //TODO a dead frame
 
