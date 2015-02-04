@@ -9,8 +9,10 @@ Preloader.prototype = {
 
     preload: function() {
 
-        this.game.stage.backgroundColor = '#068CFD';
+        this.game.stage.backgroundColor = '#0099ff';
 
+        this.slogan = this.game.add.sprite(this.game.width / 2, this.game.height / 2 - 50, 'slogan');
+        this.slogan.anchor.setTo(0.5, 0.5);
         //show a loading indicator while loading game resources
         // this.indicator = this.add.sprite(this.game.width / 2, this.game.height / 2, 'preloader'); //sprite(x, y, key, frame, group) 
         // this.indicator.anchor.setTo(0.5, 0.5);
@@ -41,7 +43,7 @@ Preloader.prototype = {
         this.load.image('ground', 'assets/ground.png');
 
         //obstacle
-        this.load.image('dustbin', 'assets/dustbin.png');
+        // this.load.image('dustbin', 'assets/dustbin.png');
 
         //background clouds
         this.load.image('cloud1', 'assets/cloud1.png');
@@ -55,7 +57,7 @@ Preloader.prototype = {
         this.load.image('replayBtn', 'assets/replay.png');
 
         //obstacles
-        this.load.spritesheet('obstacles', 'assets/obstacles.png', 80, 60);
+        this.load.spritesheet('obstacles', 'assets/obstacles.png', 88, 121);
 
         this.load.audio('jump', 'assets/snd/jump.mp3');
         this.load.audio('scored', 'assets/snd/scored.mp3');

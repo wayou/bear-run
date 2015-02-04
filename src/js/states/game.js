@@ -10,7 +10,7 @@ Game.prototype = {
     create: function() {
 
         //set background color for the game
-        this.game.stage.backgroundColor = '#068CFD';
+        this.game.stage.backgroundColor = '#0099ff';
 
         //enable physics system
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -33,6 +33,12 @@ Game.prototype = {
         this.game.add.existing(this.ground);
 
         this.obstacles = this.game.add.group();
+
+        //add all obstacles to the group
+        this.obstacles.add(new Obstacle(this.game, 0, this.game.height / 2 - 30, 'obstacles', 0, 0));
+        this.obstacles.add(new Obstacle(this.game, 0, this.game.height / 2 - 30, 'obstacles', 1, 1));
+        this.obstacles.add(new Obstacle(this.game, 0, this.game.height / 2 - 30, 'obstacles', 2, 2));
+        this.obstacles.add(new Obstacle(this.game, 0, this.game.height / 2 - 30, 'obstacles', 3, 3));
 
         //the player
         this.player = new Player(this.game, 60, 100, 'player');
@@ -76,7 +82,7 @@ Game.prototype = {
             font: '16px arial',
             fill: '#fff',
             stroke: '#000',
-            fontWeight:'bold',
+            fontWeight: 'bold',
             strokeThickness: 2
         };
 
@@ -128,6 +134,8 @@ Game.prototype = {
             return;
         }
 
+        console.log('started');
+
         this.game.global.status = 1;
 
         this.player.run();
@@ -158,7 +166,7 @@ Game.prototype = {
 
         this.game.global.score += 1;
 
-        //generate obstacle every 1 sec
+        //generate obstacle every 1.1 sec
         if (this.game.global.score % 11 === 0) {
             this.generateObstacle();
         }
@@ -167,7 +175,7 @@ Game.prototype = {
         if (!(this.game.global.score % 100)) {
             //update the game speed when level up
             if (this.game.global.speed > this.game.global.MAX_SPEED) {
-                this.game.global.peed += this.game.global.RATIO;
+                this.game.global.speed += this.game.global.RATIO;
                 this.ground.scroll(this.game.global.speed);
             }
 
@@ -187,21 +195,53 @@ Game.prototype = {
 
     },
     generateObstacle: function() {
+        // var x = this.game.rnd.integerInRange(this.game.width, this.game.width + 150);
+
+        // var obstacle = this.obstacles.getFirstExists(false);
+        // if (!obstacle) {
+        //     obstacle = new Obstacle(this.game, x, this.game.height / 2 - 30, 'dustbin');
+        //     this.obstacles.add(obstacle);
+        // } else {
+        //     obstacle.reset(x, this.game.height / 2 - 30);
+        //     obstacle.body.velocity.x = this.game.global.speed;
+        // }
+
+        //basically, the following new logic to generate a new obstacle is that we get a random child from the obstacles group. note there are 4 types of obstacle. if the one we got is already existing, that is to say it's on the screen, then we try to get the same type from the reminds. if there's no available same type obstacles, we simply create one.
+        // if the one we get at first time does net exists, that's quite nice, use it directly. just reset it before we reues it.
+
         var x = this.game.rnd.integerInRange(this.game.width, this.game.width + 150);
 
-        var obstacle = this.obstacles.getFirstExists(false);
-        if (!obstacle) {
-            obstacle = new Obstacle(this.game, x, this.game.height / 2 - 30, 'dustbin');
-            this.obstacles.add(obstacle);
+        var obstacle = this.obstacles.getRandom();
+
+        if (obstacle.exists) {
+            //try get the next same type children
+            var typedChildren = this.obstacles.filter(function(child, index, children) {
+                return !child.exists && child.obstacleIndex === obstacle.obstacleIndex && child.z !== obstacle.z;
+            }, false);
+
+            if (!typedChildren.first) {
+                obstacle = new Obstacle(this.game, x, this.game.height / 2 - 30, 'obstacles', obstacle.obstacleIndex, obstacle.obstacleIndex);
+                this.obstacles.add(obstacle);
+            } else {
+                obstacle = typedChildren.first;
+                obstacle.reset(x, this.game.height / 2 - 30);
+                obstacle.body.velocity.x = this.game.global.speed;
+            }
+
         } else {
             obstacle.reset(x, this.game.height / 2 - 30);
             obstacle.body.velocity.x = this.game.global.speed;
         }
 
+        console.log(this.obstacles.children.length);
+
     },
     gameOver: function(player, obstacle) {
         this.game.global.status = 0;
         this.game.global.speed = -300;
+
+        this.game.input.keyboard.removeKey(Phaser.Keyboard.SPACEBAR);
+        this.game.input.keyboard.removeKey(this.arrow);
 
         this.obstacles.setAll('body.velocity.x', 0);
 
@@ -229,8 +269,8 @@ Game.prototype = {
 
     },
     shutdown: function() {
-        this.game.input.keyboard.removeKey(Phaser.Keyboard.SPACEBAR);
-        this.game.input.keyboard.removeKey(this.arrow);
+        // this.game.input.keyboard.removeKey(Phaser.Keyboard.SPACEBAR);
+        // this.game.input.keyboard.removeKey(this.arrow);
         this.player.destroy();
         this.obstacles.destroy();
         this.ground.destroy();
