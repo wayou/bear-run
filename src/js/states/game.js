@@ -244,7 +244,7 @@ Game.prototype = {
         player.stop();
 
         this.replayBtn.visible = true;
-        player.body.gravity.y = 0;
+        player.body.gravity = 0;
 
         // this.player.frame = 4; //TODO a dead frame
 
