@@ -138,6 +138,11 @@ Game.prototype = {
 
         this.game.global.status = 1;
 
+        //fix a bug
+        this.game.input.onDown.remove(this.startGame,this);
+        this.arrow.up.onDown.remove(this.startGame,this);
+        this.spacebar.onDown.remove(this.startGame,this);
+
         this.player.run();
         this.ground.scroll(this.game.global.speed);
         this.background.scroll();
@@ -240,8 +245,7 @@ Game.prototype = {
         this.game.global.status = 0;
         this.game.global.speed = -300;
 
-        this.game.input.keyboard.removeKey(Phaser.Keyboard.SPACEBAR);
-        this.game.input.keyboard.removeKey(this.arrow);
+        // this.game.input.destroy();
 
         this.obstacles.setAll('body.velocity.x', 0);
 
@@ -269,8 +273,8 @@ Game.prototype = {
 
     },
     shutdown: function() {
-        // this.game.input.keyboard.removeKey(Phaser.Keyboard.SPACEBAR);
-        // this.game.input.keyboard.removeKey(this.arrow);
+        this.game.input.keyboard.removeKey(Phaser.Keyboard.SPACEBAR);
+        this.game.input.keyboard.removeKey(this.arrow);
         this.player.destroy();
         this.obstacles.destroy();
         this.ground.destroy();
