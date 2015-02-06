@@ -23,6 +23,9 @@
 
  * CHANGELOG
  
+ * v0.8.1
+ * - fix super mode timeout bug
+
  * v0.8.0
  * - complete the super mode
 
