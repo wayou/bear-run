@@ -125,9 +125,7 @@ Game.prototype = {
         //auto start the game after 3 secs
         this.autoStartTimer = this.game.time.events.add(Phaser.Timer.SECOND * 3, this.startGame, this);
 
-        this.superModeTrack = this.game.time.time;
-        this.elapsedSecSinceSuperMode = 0;
-        this.superModeDuration = 0;
+        this.superTimeRemained = 0;
 
     },
     reInitializeScoreTween: function() {
@@ -216,10 +214,10 @@ Game.prototype = {
         this.game.global.score += 1;
 
         //timeout the super mode
-        if (this.game.global.superMode) {
-            this.elapsedSecSinceSuperMode = this.game.time.elapsedSecondsSince(this.superModeTrack).toFixed(0);
-            this.info.text = '来自组织的关爱：' + (this.superModeDuration - this.elapsedSecSinceSuperMode);
-            if (this.elapsedSecSinceSuperMode == this.superModeDuration) {
+        if (this.game.global.superMode && this.game.global.score % 10 === 0) {
+            this.superTimeRemained -= 1;
+            this.info.text = '来自组织的关爱：' + this.superTimeRemained;
+            if (this.superTimeRemained === 0) {
                 this.game.global.superMode = false;
                 this.info.alpha = 0;
             }
@@ -313,13 +311,10 @@ Game.prototype = {
             this.coinSnd.play();
 
             //super time random within 5 to 15 sec
-            this.superModeDuration = this.game.rnd.integerInRange(5,15);
+            this.superTimeRemained = this.game.rnd.integerInRange(5, 15);
 
-            this.info.text = '来自组织的关爱：' + this.superModeDuration;
+            this.info.text = '来自组织的关爱：' + this.superTimeRemained;
             this.info.alpha = 1;
-
-            //set a time mark to timeout the super mode in 5 sec
-            this.superModeTrack = this.game.time.time;
 
             return;
         }
@@ -361,6 +356,7 @@ Game.prototype = {
         this.bottomGroundGraphics.destroy();
         this.gameTimer.removeAll();
         this.gameTimer.destroy();
+        this.game.time.removeAll();
     }
     //fix me : why this not working
     // render: function() {
