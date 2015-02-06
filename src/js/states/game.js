@@ -218,7 +218,7 @@ Game.prototype = {
         //timeout the super mode
         if (this.game.global.superMode) {
             this.elapsedSecSinceSuperMode = this.game.time.elapsedSecondsSince(this.superModeTrack).toFixed(0);
-            this.info.text = '无敌时间：' + (this.superModeDuration - this.elapsedSecSinceSuperMode);
+            this.info.text = '来自组织的关爱：' + (this.superModeDuration - this.elapsedSecSinceSuperMode);
             if (this.elapsedSecSinceSuperMode == this.superModeDuration) {
                 this.game.global.superMode = false;
                 this.info.alpha = 0;
@@ -315,7 +315,7 @@ Game.prototype = {
             //super time random within 5 to 15 sec
             this.superModeDuration = this.game.rnd.integerInRange(5,15);
 
-            this.info.text = '无敌时间：' + this.superModeDuration;
+            this.info.text = '来自组织的关爱：' + this.superModeDuration;
             this.info.alpha = 1;
 
             //set a time mark to timeout the super mode in 5 sec
