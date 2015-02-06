@@ -38,10 +38,10 @@ Game.prototype = {
         this.obstacles = this.game.add.group();
 
         //add all obstacles to the group
-        this.obstacles.add(new Obstacle(this.game, 0, this.game.height / 2 - 30, 'obstacles', 0, 0));
-        this.obstacles.add(new Obstacle(this.game, 0, this.game.height / 2 - 30, 'obstacles', 1, 1));
-        this.obstacles.add(new Obstacle(this.game, 0, this.game.height / 2 - 30, 'obstacles', 2, 2));
-        this.obstacles.add(new Obstacle(this.game, 0, this.game.height / 2 - 30, 'obstacles', 3, 3));
+        this.obstacles.add(new Obstacle(this.game, -50, this.game.height / 2 - 30, 'obstacles', 0, 0));
+        this.obstacles.add(new Obstacle(this.game, -50, this.game.height / 2 - 30, 'obstacles', 1, 1));
+        this.obstacles.add(new Obstacle(this.game, -50, this.game.height / 2 - 30, 'obstacles', 2, 2));
+        this.obstacles.add(new Obstacle(this.game, -50, this.game.height / 2 - 30, 'obstacles', 3, 3));
 
         this.coin = this.game.add.existing(new Coin(this.game, this.game.width + 50, this.game.height / 2 - 100, 'ducoin'));
 
