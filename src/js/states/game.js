@@ -125,6 +125,10 @@ Game.prototype = {
         //auto start the game after 3 secs
         this.autoStartTimer = this.game.time.events.add(Phaser.Timer.SECOND * 3, this.startGame, this);
 
+        this.superModeTrack = this.game.time.time;
+        this.elapsedSecSinceSuperMode = 0;
+        this.superModeDuration = 0;
+
     },
     reInitializeScoreTween: function() {
         this.blinkScore = this.game.add.tween(this.score).to({
@@ -201,7 +205,7 @@ Game.prototype = {
         this.gameTimer.loop(100, this.timeUpdate, this);
         this.gameTimer.start();
 
-        this.blinkInfo.start();
+        // this.blinkInfo.start();
 
     },
     timeUpdate: function() {
@@ -210,6 +214,16 @@ Game.prototype = {
         }
 
         this.game.global.score += 1;
+
+        //timeout the super mode
+        if (this.game.global.superMode) {
+            this.elapsedSecSinceSuperMode = this.game.time.elapsedSecondsSince(this.superModeTrack).toFixed(0);
+            this.info.text = '无敌时间：' + (this.superModeDuration - this.elapsedSecSinceSuperMode);
+            if (this.elapsedSecSinceSuperMode == this.superModeDuration) {
+                this.game.global.superMode = false;
+                this.info.alpha = 0;
+            }
+        }
 
         //generate obstacle every 1.1 sec
         if (this.game.global.score % 11 === 0) {
@@ -263,6 +277,7 @@ Game.prototype = {
 
         //random generate a coin instead of normal obstacles
         if (x < this.game.width + 75 && !this.coin.exists && !this.game.global.superMode) {
+
             this.coin.reset(x, this.coin.y);
             this.coin.body.velocity.x = this.game.global.speed;
         } else {
@@ -296,14 +311,23 @@ Game.prototype = {
             this.game.global.superMode = true;
             obstacle.kill();
             this.coinSnd.play();
-            //set a timer to timeout the super mode 
-            //todo 
+
+            //super time random within 5 to 15 sec
+            this.superModeDuration = this.game.rnd.integerInRange(5,15);
+
+            this.info.text = '无敌时间：' + this.superModeDuration;
+            this.info.alpha = 1;
+
+            //set a time mark to timeout the super mode in 5 sec
+            this.superModeTrack = this.game.time.time;
+
             return;
         }
         this.game.global.status = 0;
         this.game.global.speed = -300;
 
         this.obstacles.setAll('body.velocity.x', 0);
+        this.coin.body.velocity.x = 0;
 
         player.stop();
 
