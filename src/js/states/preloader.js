@@ -42,6 +42,15 @@ Preloader.prototype = {
         //the ground
         this.load.image('ground', 'assets/ground.png');
 
+        //the du coin
+        this.load.image('ducoin', 'assets/du_coin.png');
+
+        //emojis
+        this.load.image('emojis', 'assets/emojis.png');
+
+        //device orientation
+        this.load.image('orientation', 'assets/orientation.jpg');
+
         //obstacle
         // this.load.image('dustbin', 'assets/dustbin.png');
 
@@ -62,12 +71,13 @@ Preloader.prototype = {
         this.load.audio('jump', 'assets/snd/jump.mp3');
         this.load.audio('scored', 'assets/snd/scored.mp3');
         this.load.audio('gameOver', 'assets/snd/game-over.mp3');
+        this.load.audio('coin', 'assets/snd/coin.mp3');
 
         //the font
         //todo get a nicer font
         // this.load.bitmapFont('fnt', 'assets/font/coder.png', 'assets/font/coder.fnt');
 
-        this.loadingText = this.game.add.text(this.game.width / 2, this.game.height / 2 - 10, 'loading...', {
+        this.loadingText = this.game.add.text(this.game.width / 2, this.game.height / 2 - 10, 'LOADING...', {
             font: '12px arial',
             fill: '#fff',
             align: 'enter'
@@ -82,9 +92,7 @@ Preloader.prototype = {
     },
     fileComplete: function(progress, cacheKey, success, totalLoaded, totalFiles) {
 
-        this.loadingText.setText("资源加载中，完成: " + progress + "%");
-        // this.loadingText.setText("资源加载中，已完成: " + progress + "% - " + totalLoaded + " 总共：" + totalFiles);
-
+        this.loadingText.setText('资源加载中，完成: ' + progress + '%');
         this.preloadBar.scale.x = progress * 0.01;
 
     },

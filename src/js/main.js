@@ -2,7 +2,7 @@
  * bear run
  * this is a html5 web game built with phaser
  * and inspired by chorme offline hidden game t-rex runner
- * v0.7.1
+ * v0.8.0 -pre 
  * for more info pls head to https://github.com/wayou/bear-run
  *
  *credits:
@@ -14,6 +14,8 @@
  *- http://www.freesound.org/people/fins/sounds/146734/
  *- jump snd by LloydEvans09 Rossley licensed under the cc license
  *- http://www.freesound.org/people/LloydEvans09/sounds/187024/
+ *- coin snd by DrMinky licensed under the cc license
+ *- https://www.freesound.org/people/DrMinky/sounds/166184/
  *
  *- tools used to create this game:
  *- convert wav audio to mp3 http://media.io/
@@ -21,6 +23,10 @@
 
  * CHANGELOG
  
+ * v0.8.0 -pre
+ * - reimplement the obstacle generation logic, add a coin to enter the super mode
+ * - add super mode sprites
+
  * v0.7.1
  * - fix replay bug
 
@@ -75,11 +81,12 @@ var game = new Phaser.Game(320, 480, Phaser.AUTO, '');
 
 game.global = {
     score: 0,
+    superMode: false,
     highScore: localStorage && localStorage.getItem('bear-run-high-score') || 0, //get the high score from local storage if possible
     status: 0, //0 not started|1 started
     speed: -300,
     RATIO: -20, //how fast the speed grow during the game running
-    MAX_SPEED: -460
+    MAX_SPEED: -500
 };
 
 game.state.add('Boot', require('./states/boot'));

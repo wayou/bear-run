@@ -2,6 +2,7 @@ var Player = require('../entities/player');
 var Ground = require('../entities/ground');
 var Obstacle = require('../entities/obstacle');
 var Background = require('../entities/background');
+var Coin = require('../entities/coin');
 
 var Game = function() {};
 
@@ -40,6 +41,8 @@ Game.prototype = {
         this.obstacles.add(new Obstacle(this.game, 0, this.game.height / 2 - 30, 'obstacles', 2, 2));
         this.obstacles.add(new Obstacle(this.game, 0, this.game.height / 2 - 30, 'obstacles', 3, 3));
 
+        this.coin = this.game.add.existing(new Coin(this.game, this.game.width + 50, this.game.height / 2 - 100, 'ducoin'));
+
         //the player
         this.player = new Player(this.game, 60, 100, 'player');
         this.game.add.existing(this.player);
@@ -47,6 +50,7 @@ Game.prototype = {
         //sound
         this.scoreSnd = this.game.add.audio('scored');
         this.gameOverSnd = this.game.add.audio('gameOver');
+        this.coinSnd = this.game.add.audio('coin');
 
         /*key control*/
         this.arrow = this.game.input.keyboard.createCursorKeys();
@@ -85,6 +89,12 @@ Game.prototype = {
 
         this.score = this.game.add.text(100, 0, '  SCORE:0', style);
         // this.score.anchor.setTo(0.5, 0.5);
+        this.blinkScore = this.game.add.tween(this.score).to({
+            alpha: 1
+        }, 400, Phaser.Easing.Bounce.Out, false, 0, 4, false);
+
+        //THINGS I LEARNT:reuse the tween, I think this's a bug, directlly use the this.blinkScore will not work properly while I need to reassign a new tween to it after the previous is completed.
+        this.blinkScore.onComplete.add(this.reInitializeScoreTween, this);
 
         this.scoreBoard.add(this.highScore);
         this.scoreBoard.add(this.score);
@@ -95,6 +105,39 @@ Game.prototype = {
         this.replayBtn.anchor.setTo(0.5, 0.5);
         this.replayBtn.visible = false;
 
+        this.info = this.game.add.text(this.game.width / 2, 70, '组织在前方等你~', {
+            font: '20px Microsoft Yahei',
+            fill: '#ffff00',
+            stroke: '#000',
+            fontWeight: 'bold',
+            strokeThickness: 1
+        });
+        this.info.anchor.setTo(0.5, 0.5);
+        this.info.alpha = 0;
+
+        this.blinkInfo = this.game.add.tween(this.info).to({
+            alpha: 1
+        }, 400, Phaser.Easing.Bounce.Out, false, 0, 4, false);
+
+        //THINGS I LEARNT:reuse the tween, I think this's a bug, directlly use the this.blinkScore will not work properly while I need to reassign a new tween to it after the previous is completed.
+        this.blinkInfo.onComplete.add(this.reInitializeInfoTween, this);
+
+        //auto start the game after 3 secs
+        this.autoStartTimer = this.game.time.events.add(Phaser.Timer.SECOND * 3, this.startGame, this);
+
+    },
+    reInitializeScoreTween: function() {
+        this.blinkScore = this.game.add.tween(this.score).to({
+            alpha: 1
+        }, 400, Phaser.Easing.Bounce.Out, false, 0, 4, false);
+        this.blinkScore.onComplete.add(this.reInitializeScoreTween, this);
+    },
+    reInitializeInfoTween: function() {
+        this.info.alpha = 0;
+        this.blinkInfo = this.game.add.tween(this.info).to({
+            alpha: 1
+        }, 400, Phaser.Easing.Bounce.Out, false, 0, 4, false);
+        this.blinkInfo.onComplete.add(this.reInitializeInfoTween, this);
     },
     replay: function() {
         this.game.state.start('Game');
@@ -106,6 +149,8 @@ Game.prototype = {
 
         this.game.physics.arcade.collide(this.player, this.ground);
 
+        this.game.physics.arcade.overlap(this.player, this.coin, this.gameOver, this.shouldGameover, this);
+
         this.obstacles.forEach(function(obstacle) {
             //debug
             // this.game.debug.body(obstacle);
@@ -116,7 +161,7 @@ Game.prototype = {
     },
     shouldGameover: function() {
         //if status is 0, the game already stopped,prevent the gameOver callback to execute
-        if (this.game.global.status === 1) {
+        if (this.game.global.status === 1 && !this.game.global.superMode) {
             return true;
         } else {
             return false;
@@ -127,8 +172,6 @@ Game.prototype = {
         if (this.game.global.status !== 0) {
             return;
         }
-
-        console.log('started');
 
         this.game.global.status = 1;
 
@@ -142,7 +185,7 @@ Game.prototype = {
         this.background.scroll();
 
         // add a timer
-        // things i learnt: the events timer will automatically start while the time timer not
+        // THINGS I LEARNT: the events timer will automatically start while the time timer not
         // so in this case the obstacle generator should be started automatically, we use events timer
         // this.obstacleGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 1.4, this.generateObstacle, this);
 
@@ -157,6 +200,9 @@ Game.prototype = {
         this.gameTimer = this.game.time.create(false);
         this.gameTimer.loop(100, this.timeUpdate, this);
         this.gameTimer.start();
+
+        this.blinkInfo.start();
+
     },
     timeUpdate: function() {
         if (this.game.global.status !== 1) {
@@ -184,9 +230,14 @@ Game.prototype = {
             this.score.alpha = 0;
             // this.shineScore.start();
             // fix me: does this implementation will create a new tween every time and the previous are still exists? if so there will be potential memory leak
-            this.game.add.tween(this.score).to({
-                alpha: 1
-            }, 300, Phaser.Easing.Linear.NONE, true, 0, 4, false);
+            // this.game.add.tween(this.score).to({
+            //     alpha: 1
+            // }, 300, Phaser.Easing.Linear.NONE, true, 0, 4, false);
+
+            this.blinkScore.start();
+
+            // this.info.text = '不错哦~新的最高分！';
+            // this.blinkInfo.start();
         }
 
         // this.scoreBoard.text = 'BEST:' + this.game.global.highScore + '  SCORE:' + this.game.global.score;
@@ -210,32 +261,45 @@ Game.prototype = {
 
         var x = this.game.rnd.integerInRange(this.game.width, this.game.width + 150);
 
-        var obstacle = this.obstacles.getRandom();
+        //random generate a coin instead of normal obstacles
+        if (x < this.game.width + 75 && !this.coin.exists && !this.game.global.superMode) {
+            this.coin.reset(x, this.coin.y);
+            this.coin.body.velocity.x = this.game.global.speed;
+        } else {
+            var obstacle = this.obstacles.getRandom();
 
-        if (obstacle.exists) {
-            //try get the next same type children
-            var typedChildren = this.obstacles.filter(function(child, index, children) {
-                return !child.exists && child.obstacleIndex === obstacle.obstacleIndex && child.z !== obstacle.z;
-            }, false);
+            if (obstacle.exists) {
+                //try get the next same type children
+                var typedChildren = this.obstacles.filter(function(child, index, children) {
+                    return !child.exists && child.obstacleIndex === obstacle.obstacleIndex && child.z !== obstacle.z;
+                }, false);
 
-            if (!typedChildren.first) {
-                obstacle = new Obstacle(this.game, x, this.game.height / 2 - 30, 'obstacles', obstacle.obstacleIndex, obstacle.obstacleIndex);
-                this.obstacles.add(obstacle);
+                if (!typedChildren.first) {
+                    obstacle = new Obstacle(this.game, x, this.game.height / 2 - 30, 'obstacles', obstacle.obstacleIndex, obstacle.obstacleIndex);
+                    this.obstacles.add(obstacle);
+                } else {
+                    obstacle = typedChildren.first;
+                    obstacle.reset(x, obstacle.y);
+                    obstacle.body.velocity.x = this.game.global.speed;
+                }
+
             } else {
-                obstacle = typedChildren.first;
-                obstacle.reset(x, this.game.height / 2 - 30);
+                obstacle.reset(x, obstacle.y);
                 obstacle.body.velocity.x = this.game.global.speed;
             }
-
-        } else {
-            obstacle.reset(x, this.game.height / 2 - 30);
-            obstacle.body.velocity.x = this.game.global.speed;
         }
-
-        console.log(this.obstacles.children.length);
-
     },
     gameOver: function(player, obstacle) {
+
+        //if the obstacle is coin, then start the super mode and the game should not be over
+        if (obstacle.name === 'coin') {
+            this.game.global.superMode = true;
+            obstacle.kill();
+            this.coinSnd.play();
+            //set a timer to timeout the super mode 
+            //todo 
+            return;
+        }
         this.game.global.status = 0;
         this.game.global.speed = -300;
 
@@ -246,7 +310,7 @@ Game.prototype = {
         this.replayBtn.visible = true;
         player.body.gravity = 0;
 
-        // this.player.frame = 4; //TODO a dead frame
+        this.player.frame = 4;
 
         this.ground.stop();
         this.background.stop();
