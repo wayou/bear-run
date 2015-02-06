@@ -11,7 +11,8 @@ Game.prototype = {
     create: function() {
 
         //set background color for the game
-        this.game.stage.backgroundColor = '#0099ff';
+        // this.game.stage.backgroundColor = '#0099ff';
+        this.game.stage.backgroundColor = Math.random() * 0xffffff;
 
         //enable physics system
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -25,7 +26,8 @@ Game.prototype = {
         //the bottom background
         this.bottomGroundGraphics = this.game.add.graphics(0, 0);
         this.bottomGroundGraphics.lineStyle(0);
-        this.bottomGroundGraphics.beginFill(0x9D6C05, 1);
+        // this.bottomGroundGraphics.beginFill(0x9D6C05, 1);
+        this.bottomGroundGraphics.beginFill(Math.random() * 0xffffff, 1);
         this.bottomGroundGraphics.drawRect(0, this.game.height / 2, this.game.width, this.game.height / 2);
 
         //place the ground

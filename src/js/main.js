@@ -2,7 +2,7 @@
  * bear run
  * this is a html5 web game built with phaser
  * and inspired by chorme offline hidden game t-rex runner
- * v0.8.0 
+ * v0.8.2
  * for more info pls head to https://github.com/wayou/bear-run
  *
  *credits:
@@ -23,6 +23,9 @@
 
  * CHANGELOG
  
+ * v0.8.2
+ * - randomize the game color
+ * 
  * v0.8.1
  * - fix super mode timeout bug
 
