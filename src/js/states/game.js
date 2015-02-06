@@ -346,7 +346,7 @@ Game.prototype = {
         //update high score
         if (this.game.global.highScore < this.game.global.score) {
             this.game.global.highScore = this.game.global.score;
-            localStorage && localStorage.setItem('bear-run-high-score', this.game.global.highScore);
+            localStorage && localStorage.setItem('brhs', this.game.global.highScore);
         }
         this.game.global.score = 0;
         this.gameOverSnd.play();
