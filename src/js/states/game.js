@@ -119,7 +119,7 @@ Game.prototype = {
         // this.info.alpha = 0;
 
         this.blinkInfo = this.game.add.tween(this.info).to({
-            x: this.game.width+100
+            x: this.game.width + 100
         }, 500, Phaser.Easing.Linear.NONE, false, 1000, 0, false);
 
         //THINGS I LEARNT:reuse the tween, I think this's a bug, directlly use the this.blinkScore will not work properly while I need to reassign a new tween to it after the previous is completed.
@@ -128,12 +128,38 @@ Game.prototype = {
         //auto start the game after 3 secs
         // this.autoStartTimer = this.game.time.events.add(Phaser.Timer.SECOND * 3, this.startGame, this);
 
-        this.tap = this.game.add.sprite(this.game.width / 2, this.game.height / 2 , 'tap');
-        this.tap.anchor.setTo(0.5,0.5);
+        this.tap = this.game.add.sprite(this.game.width / 2, this.game.height / 2, 'tap');
+        this.tap.anchor.setTo(0.5, 0.5);
 
         this.superTimeRemained = 0;
 
+        //JUST FOR TEST PURPOSE
+        this.tests = ['天空飘来5个字', '那都不是事儿', '妈妈再打我一次', '向来情深，奈何缘浅', '嘿，你看过环太平间么', '妳妈逼妳相亲了麽'];
+        this.testTxt = this.game.add.text(this.game.width + 1, this.game.rnd.integerInRange(50, this.game.height / 2 - 50), this.tests[Math.floor(Math.random() * this.tests.length)], style);
+        this.testTxt.exists = false;
+
+        // this.testTxt.checkWorldBounds = true;
+        this.flatTest = this.game.add.tween(this.testTxt).to({
+            x: -100
+        }, 4000, Phaser.Easing.Linear.NONE, false, 0, 0, false);
+
+        this.flatTest.onComplete.add(this.reInitializeTsetTween, this);
+        //TEST END
+
     },
+    //FOR TEST
+    reInitializeTsetTween: function() {
+        this.testTxt.exists=false;
+        this.testTxt.x = this.game.width + 1;
+        this.testTxt.y = this.game.rnd.integerInRange(50, this.game.height / 2 - 50);
+        this.testTxt.text = this.tests[Math.floor(Math.random() * this.tests.length)];
+
+        this.flatTest = this.game.add.tween(this.testTxt).to({
+            x: -100
+        }, 4000, Phaser.Easing.Linear.NONE, false, 0, 0, false);
+        this.flatTest.onComplete.add(this.reInitializeTsetTween, this);
+    },
+    //TEST END
     reInitializeScoreTween: function() {
         this.blinkScore = this.game.add.tween(this.score).to({
             alpha: 1
@@ -142,7 +168,7 @@ Game.prototype = {
     },
     reInitializeInfoTween: function() {
         this.info.alpha = 0;
-        this.info.x = this.game.width/2;
+        this.info.x = this.game.width / 2;
         this.blinkInfo = this.game.add.tween(this.info).to({
             alpha: 1
         }, 400, Phaser.Easing.Bounce.Out, false, 0, 4, false);
@@ -264,6 +290,15 @@ Game.prototype = {
         // this.scoreBoard.text = 'BEST:' + this.game.global.highScore + '  SCORE:' + this.game.global.score;
         this.score.text = '  SCORE:' + this.game.global.score;
 
+        //JUST FOR TEST PURPOSE
+        if (!this.testTxt.exists) {
+            if (Math.random() - 0.5 > 0) {
+                this.testTxt.exists = true;
+                this.flatTest.start();
+            }
+        }
+        //TESET END
+
     },
     generateObstacle: function() {
         // var x = this.game.rnd.integerInRange(this.game.width, this.game.width + 150);
@@ -283,7 +318,7 @@ Game.prototype = {
         var x = this.game.rnd.integerInRange(this.game.width, this.game.width + 150);
 
         //random generate a coin instead of normal obstacles
-        if (x < this.game.width + 15 && !this.coin.exists && !this.game.global.superMode) {
+        if (x < this.game.width + 10 && !this.coin.exists && !this.game.global.superMode) {
 
             this.coin.reset(x, this.coin.y);
             this.coin.body.velocity.x = this.game.global.speed;

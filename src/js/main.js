@@ -2,7 +2,7 @@
  * bear run
  * this is a html5 web game built with phaser
  * and inspired by chorme offline hidden game t-rex runner
- * v0.9.4
+ * v0.9.5
  * for more info pls head to https://github.com/wayou/bear-run
  *
  *credits:
@@ -25,7 +25,11 @@
 
  * CHANGELOG
  
- * v0.9.4
+ * v0.9.5
+ * - decrease the change for coin
+ * - test floating text in the sky
+
+ * * v0.9.4
  * - tween welcome text to right
  * - set the coin probability to 0.1
  * 
