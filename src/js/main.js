@@ -2,7 +2,7 @@
  * bear run
  * this is a html5 web game built with phaser
  * and inspired by chorme offline hidden game t-rex runner
- * v0.9.2
+ * v0.9.3
  * for more info pls head to https://github.com/wayou/bear-run
  *
  *credits:
@@ -25,6 +25,10 @@
 
  * CHANGELOG
  
+ * v0.9.3
+ * - add tap instruction
+ * - adjustment the game speed
+ * 
  * v0.9.2
  * - add hidden pic for share
  * 
@@ -114,7 +118,7 @@ game.global = {
     status: 0, //0 not started|1 started
     speed: -300,
     RATIO: -20, //how fast the speed grow during the game running
-    MAX_SPEED: -500
+    MAX_SPEED: -560
 };
 
 game.state.add('Boot', require('./states/boot'));

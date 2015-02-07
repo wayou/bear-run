@@ -51,6 +51,9 @@ Preloader.prototype = {
         //device orientation
         this.load.image('orientation', 'assets/orientation.jpg');
 
+        //instruction
+        this.load.image('tap', 'assets/tap.png');
+
         //obstacle
         // this.load.image('dustbin', 'assets/dustbin.png');
 

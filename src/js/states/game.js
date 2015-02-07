@@ -126,7 +126,10 @@ Game.prototype = {
         this.blinkInfo.onComplete.add(this.reInitializeInfoTween, this);
 
         //auto start the game after 3 secs
-        this.autoStartTimer = this.game.time.events.add(Phaser.Timer.SECOND * 3, this.startGame, this);
+        // this.autoStartTimer = this.game.time.events.add(Phaser.Timer.SECOND * 3, this.startGame, this);
+
+        this.tap = this.game.add.sprite(this.game.width / 2, this.game.height / 2 , 'tap');
+        this.tap.anchor.setTo(0.5,0.5);
 
         this.superTimeRemained = 0;
 
@@ -179,6 +182,7 @@ Game.prototype = {
             return;
         }
 
+        this.tap.visible = false;
         this.game.global.status = 1;
 
         //fix a bug
@@ -369,6 +373,7 @@ Game.prototype = {
         this.gameTimer.removeAll();
         this.gameTimer.destroy();
         this.game.time.removeAll();
+        this.tap.destroy();
     }
     //fix me : why this not working
     // render: function() {
