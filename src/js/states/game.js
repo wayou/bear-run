@@ -116,11 +116,11 @@ Game.prototype = {
             strokeThickness: 1
         });
         this.info.anchor.setTo(0.5, 0.5);
-        this.info.alpha = 0;
+        // this.info.alpha = 0;
 
         this.blinkInfo = this.game.add.tween(this.info).to({
-            alpha: 1
-        }, 400, Phaser.Easing.Bounce.Out, false, 0, 4, false);
+            x: this.game.width+100
+        }, 500, Phaser.Easing.Linear.NONE, false, 1000, 0, false);
 
         //THINGS I LEARNT:reuse the tween, I think this's a bug, directlly use the this.blinkScore will not work properly while I need to reassign a new tween to it after the previous is completed.
         this.blinkInfo.onComplete.add(this.reInitializeInfoTween, this);
@@ -142,6 +142,7 @@ Game.prototype = {
     },
     reInitializeInfoTween: function() {
         this.info.alpha = 0;
+        this.info.x = this.game.width/2;
         this.blinkInfo = this.game.add.tween(this.info).to({
             alpha: 1
         }, 400, Phaser.Easing.Bounce.Out, false, 0, 4, false);
@@ -211,7 +212,7 @@ Game.prototype = {
         this.gameTimer.loop(100, this.timeUpdate, this);
         this.gameTimer.start();
 
-        // this.blinkInfo.start();
+        this.blinkInfo.start();
 
     },
     timeUpdate: function() {
@@ -282,7 +283,7 @@ Game.prototype = {
         var x = this.game.rnd.integerInRange(this.game.width, this.game.width + 150);
 
         //random generate a coin instead of normal obstacles
-        if (x < this.game.width + 75 && !this.coin.exists && !this.game.global.superMode) {
+        if (x < this.game.width + 15 && !this.coin.exists && !this.game.global.superMode) {
 
             this.coin.reset(x, this.coin.y);
             this.coin.body.velocity.x = this.game.global.speed;
