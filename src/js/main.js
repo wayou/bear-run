@@ -2,7 +2,7 @@
  * bear run
  * this is a html5 web game built with phaser
  * and inspired by chorme offline hidden game t-rex runner
- * v0.8.3
+ * v0.9.0
  * for more info pls head to https://github.com/wayou/bear-run
  *
  *credits:
@@ -25,12 +25,17 @@
 
  * CHANGELOG
  
+ * v0.9.1
+ * - try orientation detect
+ * 
+  
  * v0.9.0
  * - optimize the runing animation for the player: check the isPlaying property to determine whether to replay the runing animation within the update function of the player. this brings performance improvemece.
  * - fix bug: collect a star and enter the super mode, do not jump, till the super mode ended, the player still plays the super frames
  * - kill obstacle when in super mode and the player collide with it
  * - add eat sound for kill obstacle
  * 
+
  * v0.8.3
  * - fix bug: the obstacles shows when game started immediately
  * 

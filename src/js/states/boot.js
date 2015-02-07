@@ -19,8 +19,26 @@ Boot.prototype = {
             this.game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
             this.game.scale.setMinMax(240, 320, 480, 640);
             this.game.scale.forceOrientation(false, true);
+
+            // this.scale.enterIncorrectOrientation.add(this.enterIncorrectOrientation, this);
+            // this.scale.leaveIncorrectOrientation.add(this.leaveIncorrectOrientation, this);
         }
 
         this.game.state.start('Preloader');
+    },
+    enterIncorrectOrientation: function() {
+
+        this.game.global.orientated = true;
+
+        document.getElementById('orientation').style.display = 'block';
+
+    },
+
+    leaveIncorrectOrientation: function() {
+
+        this.game.global.orientated = false;
+
+        document.getElementById('orientation').style.display = 'none';
+
     }
 };
