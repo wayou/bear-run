@@ -12,7 +12,8 @@ Game.prototype = {
 
         //set background color for the game
         // this.game.stage.backgroundColor = '#0099ff';
-        this.game.stage.backgroundColor = Math.random() * 0xffffff;
+        // this.game.stage.backgroundColor = Math.random() * 0xffffff;
+        this.game.stage.backgroundColor = this.game.global.SKY_COLORS[Math.floor(Math.random() * this.game.global.SKY_COLORS.length)];
 
         //enable physics system
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -20,14 +21,13 @@ Game.prototype = {
 
         //place the background
         this.background = new Background(this.game);
-
         this.game.add.existing(this.background);
 
         //the bottom background
         this.bottomGroundGraphics = this.game.add.graphics(0, 0);
         this.bottomGroundGraphics.lineStyle(0);
         // this.bottomGroundGraphics.beginFill(0x9D6C05, 1);
-        this.bottomGroundGraphics.beginFill(Math.random() * 0xffffff, 1);
+        this.bottomGroundGraphics.beginFill(this.game.global.GROUND_COLORS[Math.floor(Math.random() * this.game.global.GROUND_COLORS.length)], 1);
         this.bottomGroundGraphics.drawRect(0, this.game.height / 2, this.game.width, this.game.height / 2);
 
         //place the ground
@@ -36,7 +36,6 @@ Game.prototype = {
         this.game.add.existing(this.ground);
 
         this.obstacles = this.game.add.group();
-
         //add all obstacles to the group
         this.obstacles.add(new Obstacle(this.game, -50, this.game.height / 2 - 30, 'obstacles', 0, 0));
         this.obstacles.add(new Obstacle(this.game, -50, this.game.height / 2 - 30, 'obstacles', 1, 1));
