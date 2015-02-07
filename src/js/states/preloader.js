@@ -72,6 +72,7 @@ Preloader.prototype = {
         this.load.audio('scored', 'assets/snd/scored.mp3');
         this.load.audio('gameOver', 'assets/snd/game-over.mp3');
         this.load.audio('coin', 'assets/snd/coin.mp3');
+        this.load.audio('bite', 'assets/snd/bite.mp3');
 
         //the font
         //todo get a nicer font

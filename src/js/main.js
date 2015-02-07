@@ -16,6 +16,8 @@
  *- http://www.freesound.org/people/LloydEvans09/sounds/187024/
  *- coin snd by DrMinky licensed under the cc license
  *- https://www.freesound.org/people/DrMinky/sounds/166184/
+ **- bite snd by yottasounds and published as public domain
+ *- https://www.freesound.org/people/yottasounds/sounds/232133/
  *
  *- tools used to create this game:
  *- convert wav audio to mp3 http://media.io/
@@ -23,6 +25,12 @@
 
  * CHANGELOG
  
+ * v0.9.0
+ * - optimize the runing animation for the player: check the isPlaying property to determine whether to replay the runing animation within the update function of the player. this brings performance improvemece.
+ * - fix bug: collect a star and enter the super mode, do not jump, till the super mode ended, the player still plays the super frames
+ * - kill obstacle when in super mode and the player collide with it
+ * - add eat sound for kill obstacle
+ * 
  * v0.8.3
  * - fix bug: the obstacles shows when game started immediately
  * 

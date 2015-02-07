@@ -53,6 +53,7 @@ Game.prototype = {
         this.scoreSnd = this.game.add.audio('scored');
         this.gameOverSnd = this.game.add.audio('gameOver');
         this.coinSnd = this.game.add.audio('coin');
+        this.biteSnd = this.game.add.audio('bite');
 
         /*key control*/
         this.arrow = this.game.input.keyboard.createCursorKeys();
@@ -165,7 +166,8 @@ Game.prototype = {
     },
     shouldGameover: function() {
         //if status is 0, the game already stopped,prevent the gameOver callback to execute
-        if (this.game.global.status === 1 && !this.game.global.superMode) {
+        // if (this.game.global.status === 1 && !this.game.global.superMode) {
+        if (this.game.global.status === 1) {
             return true;
         } else {
             return false;
@@ -306,6 +308,13 @@ Game.prototype = {
     },
     gameOver: function(player, obstacle) {
 
+        if (this.game.global.superMode) {
+            //in super mode, dont over the game, kill the obstacle instead
+            obstacle.kill();
+            this.biteSnd.play();
+            return;
+        }
+
         //if the obstacle is coin, then start the super mode and the game should not be over
         if (obstacle.name === 'coin') {
             this.game.global.superMode = true;
@@ -313,13 +322,14 @@ Game.prototype = {
             this.coinSnd.play();
 
             //super time random within 5 to 15 sec
-            this.superTimeRemained = this.game.rnd.integerInRange(5, 15);
+            this.superTimeRemained = this.game.rnd.integerInRange(5, 9);
 
             this.info.text = '来自组织的关爱：' + this.superTimeRemained;
             this.info.alpha = 1;
 
             return;
         }
+
         this.game.global.status = 0;
         this.game.global.speed = -300;
 

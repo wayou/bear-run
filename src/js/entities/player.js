@@ -16,8 +16,8 @@ var Player = function(game, x, y, key, frame) {
 
     this.jumpSnd = this.game.add.audio('jump');
 
-    this.animations.add('run', [5, 6, 7, 8], 10, true); //add(name, frames, frameRate, loop, useNumericIndex) 
-    this.animations.add('super', [9, 10, 11, 12], 10, true);
+    this.runAni = this.animations.add('run', [5, 6, 7, 8], 10, true); //add(name, frames, frameRate, loop, useNumericIndex) 
+    this.superRunAni = this.animations.add('super', [9, 10, 11, 12], 10, true);
 
     //set jump frame alternately
     this.jumpFrame = 6; //true for frame 6 and false for 8
@@ -32,9 +32,16 @@ Player.prototype.constructor = Player;
 Player.prototype.update = function() {
     if (this.body.touching.down && this.game.global.status === 1) {
         if (this.game.global.superMode) {
-            this.superRun();
+            if (!this.superRunAni.isPlaying) {
+                this.superRun();
+            }
         } else {
-            this.run();
+            if (!this.runAni.isPlaying) {
+                if (this.superRunAni.isPlaying) {
+                    this.superStop();
+                }
+                this.run();
+            }
         }
     }
 };
@@ -42,7 +49,14 @@ Player.prototype.update = function() {
 Player.prototype.jump = function() {
     if (this.body.touching.down && this.game.global.status === 1) {
         this.body.velocity.y = -500;
-        this.stop();
+
+        if (this.superRunAni.isPlaying) {
+            this.superStop();
+        }
+        if (this.runAni.isPlaying) {
+            this.stop();
+        }
+
         //toggle jump frame
         if (this.game.global.superMode) {
             this.jumpFrame = this.jumpFrame === 10 ? 12 : 10; //if in super mode, these two frame should be 10 & 12
