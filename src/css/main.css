@@ -25,3 +25,7 @@ html, body {
     z-index: 999;
     display: none;
 }
+
+#share{
+  display: none;
+}
