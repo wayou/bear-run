@@ -2,7 +2,7 @@
  * bear run
  * this is a html5 web game built with phaser
  * and inspired by chorme offline hidden game t-rex runner
- * v0.11.1
+ * v0.11.2
  * for more info pls head to https://github.com/wayou/bear-run
  *
  *credits:
@@ -25,6 +25,9 @@
 
  * CHANGELOG
  
+ * v0.11.2
+ * - fix weixin share thumbnail and title
+
  * v0.11.1
  * - generate the coin and obstacle parallel
 

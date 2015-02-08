@@ -349,7 +349,6 @@ Game.prototype = {
             this.coin.body.velocity.x = this.game.global.speed;
         }
 
-
         var obstacle = this.obstacles.getRandom();
 
         if (obstacle.exists) {
@@ -425,9 +424,12 @@ Game.prototype = {
         if (this.game.global.highScore < this.game.global.score) {
             this.updateHighScore();
         }
+
         this.game.global.score = 0;
         this.gameOverSnd.play();
 
+        //weixin share
+        document.title = '呆萌熊找组织- ' + '跋涉' + this.game.global.highScore + '米' + '依然未见组织真身！小伙伴们快来一起找组织吧！';
     },
     updateHighScore: function() {
         this.game.global.highScore = this.game.global.score;
