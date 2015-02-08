@@ -11,8 +11,6 @@ Game.prototype = {
     create: function() {
 
         //set background color for the game
-        // this.game.stage.backgroundColor = '#0099ff';
-        // this.game.stage.backgroundColor = Math.random() * 0xffffff;
         this.game.stage.backgroundColor = this.game.global.SKY_COLORS[Math.floor(Math.random() * this.game.global.SKY_COLORS.length)];
 
         //enable physics system
@@ -26,7 +24,6 @@ Game.prototype = {
         //the bottom background
         this.bottomGroundGraphics = this.game.add.graphics(0, 0);
         this.bottomGroundGraphics.lineStyle(0);
-        // this.bottomGroundGraphics.beginFill(0x9D6C05, 1);
         this.bottomGroundGraphics.beginFill(this.game.global.GROUND_COLORS[Math.floor(Math.random() * this.game.global.GROUND_COLORS.length)], 1);
         this.bottomGroundGraphics.drawRect(0, this.game.height / 2, this.game.width, this.game.height / 2);
 
@@ -42,7 +39,8 @@ Game.prototype = {
         this.obstacles.add(new Obstacle(this.game, -50, this.game.height / 2 - 30, 'obstacles', 2, 2));
         this.obstacles.add(new Obstacle(this.game, -50, this.game.height / 2 - 30, 'obstacles', 3, 3));
 
-        this.coin = this.game.add.existing(new Coin(this.game, this.game.width + 50, this.game.height / 2 - 100, 'ducoin'));
+        this.coin = new Coin(this.game, this.game.width + 50, this.game.height / 2 - 100, 'ducoin');
+        this.game.add.existing(this.coin);
 
         //the player
         this.player = new Player(this.game, 60, 100, 'player');
@@ -87,10 +85,8 @@ Game.prototype = {
         };
 
         this.highScore = this.game.add.text(0, 0, 'BEST:' + this.game.global.highScore, style);
-        // this.highScore.anchor.setTo(0.5, 0.5);
 
         this.score = this.game.add.text(100, 0, '  SCORE:0', style);
-        // this.score.anchor.setTo(0.5, 0.5);
         this.blinkScore = this.game.add.tween(this.score).to({
             alpha: 1
         }, 400, Phaser.Easing.Bounce.Out, false, 0, 4, false);
@@ -108,11 +104,12 @@ Game.prototype = {
         this.replayBtn = this.game.add.button(this.game.width / 2 + 47, this.game.height / 2, 'replayBtn', this.replay, this);
         this.replayBtn.anchor.setTo(0.5, 0.5);
         this.overBoard.add(this.replayBtn);
+        
         this.shareBtn = this.game.add.button(this.game.width / 2 - 47, this.game.height / 2, 'shareBtn', this.share, this);
         this.shareBtn.anchor.setTo(0.5, 0.5);
         this.overBoard.add(this.shareBtn);
 
-        this.goBtn = this.game.add.button(this.game.width / 2, this.game.height / 2+70, 'goBtn', this.goBar, this);
+        this.goBtn = this.game.add.button(this.game.width / 2, this.game.height / 2 + 70, 'goBtn', this.goBar, this);
         this.goBtn.anchor.setTo(0.5, 0.5);
         this.overBoard.add(this.goBtn);
 
@@ -132,7 +129,6 @@ Game.prototype = {
         this.blinkInfo = this.game.add.tween(this.info).to({
             x: this.game.width + 100
         }, 1000, Phaser.Easing.Linear.NONE, false, 1000, 0, false);
-
         //THINGS I LEARNT:reuse the tween, I think this's a bug, directlly use the this.blinkScore will not work properly while I need to reassign a new tween to it after the previous is completed.
         this.blinkInfo.onComplete.add(this.reInitializeInfoTween, this);
 
@@ -185,7 +181,7 @@ Game.prototype = {
 
     },
     goBar: function() {
-        window.location.href='http://tieba.baidu.com/f?kw=%D5%D2%D7%E9%D6%AF';
+        window.location.href = 'http://tieba.baidu.com/f?kw=%D5%D2%D7%E9%D6%AF';
     },
     closeHint: function() {
         this.shareHint.visible = false;
@@ -337,7 +333,7 @@ Game.prototype = {
                 this.blinkInfo.start();
                 break;
             case 500:
-                this.info.text = '成就「五百步无法被嘲笑」';
+                this.info.text = '机智如你，轻松完成500米';
                 this.blinkInfo.start();
                 break;
             case 1000:
