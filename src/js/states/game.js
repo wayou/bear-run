@@ -103,9 +103,17 @@ Game.prototype = {
         this.scoreBoard.x = 10;
         this.scoreBoard.y = 10;
 
-        this.replayBtn = this.game.add.button(this.game.width / 2, this.game.height / 2, 'replayBtn', this.replay, this);
+        this.overBoard = this.game.add.group();
+
+        this.replayBtn = this.game.add.button(this.game.width / 2 + 47, this.game.height / 2, 'replayBtn', this.replay, this);
         this.replayBtn.anchor.setTo(0.5, 0.5);
-        this.replayBtn.visible = false;
+        this.overBoard.add(this.replayBtn);
+        this.shareBtn = this.game.add.button(this.game.width / 2 - 47, this.game.height / 2, 'shareBtn', this.share, this);
+        this.shareBtn.anchor.setTo(0.5, 0.5);
+        this.overBoard.add(this.shareBtn);
+
+        // this.replayBtn.visible = false;
+        this.overBoard.visible = false;
 
         this.info = this.game.add.text(this.game.width / 2, 70, '组织在前方等你~', {
             font: '20px Microsoft Yahei',
@@ -131,6 +139,13 @@ Game.prototype = {
         this.tap.anchor.setTo(0.5, 0.5);
 
         this.superTimeRemained = 0;
+
+        this.shareHint = this.game.add.sprite(0, 0, 'shareHint');
+        this.shareHint.width = this.game.width;
+        this.shareHint.height = this.game.height;
+        this.shareHint.visible = false;
+        this.shareHint.inputEnabled = true;
+        this.shareHint.events.onInputDown.add(this.closeHint, this);
 
         //JUST FOR TEST PURPOSE
         // this.tests = ['天空飘来5个字', '那都不是事儿', '妈妈再打我一次', '向来情深，奈何缘浅', '嘿，你看过环太平间么', '妳妈逼妳相亲了麽'];
@@ -159,6 +174,15 @@ Game.prototype = {
     //     this.flatTest.onComplete.add(this.reInitializeTsetTween, this);
     // },
     //TEST END
+    share: function() {
+        //TODO
+        //share logic goes here
+        this.shareHint.visible = true;
+
+    },
+    closeHint: function() {
+        this.shareHint.visible = false;
+    },
     reInitializeScoreTween: function() {
         this.blinkScore = this.game.add.tween(this.score).to({
             alpha: 1
@@ -344,7 +368,7 @@ Game.prototype = {
         var xForCoin = this.game.rnd.integerInRange(this.game.width, this.game.width + 150);
 
         //random generate a coin instead of normal obstacles
-        if (xForCoin < this.game.width + 7 && !this.coin.exists && !this.game.global.superMode) {
+        if (xForCoin < this.game.width + 5 && !this.coin.exists && !this.game.global.superMode) {
             this.coin.reset(xForCoin, this.coin.y);
             this.coin.body.velocity.x = this.game.global.speed;
         }
@@ -408,7 +432,8 @@ Game.prototype = {
 
         player.stop();
 
-        this.replayBtn.visible = true;
+        // this.replayBtn.visible = true;
+        this.overBoard.visible = true;
         player.body.gravity = 0;
 
         this.player.frame = 4;
@@ -439,7 +464,10 @@ Game.prototype = {
         this.game.input.keyboard.removeKey(Phaser.Keyboard.SPACEBAR);
         this.game.input.keyboard.removeKey(this.arrow);
         this.player.destroy();
+        this.shareHint.destroy();
         this.obstacles.destroy();
+        this.overBoard.destroy();
+        this.scoreBoard.destroy();
         this.ground.destroy();
         this.bottomGroundGraphics.destroy();
         this.gameTimer.removeAll();

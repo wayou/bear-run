@@ -31,7 +31,7 @@ Menu.prototype = {
 
         this.menu.add(this.game.add.sprite(0, 0, 'welcome'));
 
-        this.startBtn = this.game.add.button(200, 130, 'startBtn', this.startClick, this);
+        this.startBtn = this.game.add.button(200, 90, 'startBtn', this.startClick, this);
         this.startBtn.anchor.setTo(0.5, 0.5);
         this.menu.add(this.startBtn);
 

@@ -2,21 +2,21 @@
  * bear run
  * this is a html5 web game built with phaser
  * and inspired by chorme offline hidden game t-rex runner
- * v0.11.2
+ * v0.11.3
  * for more info pls head to https://github.com/wayou/bear-run
  *
- *credits:
+ *CREDITS:
  *- code and art : wayou
  *- the bear stuff characters are created by tiaba ue team, and all characters used in this game are adapted from their works by wayou
  *- score snd by Cabeeno Rossley licensed under the cc license
-* - http://www.freesound.org/people/Cabeeno%20Rossley/sounds/126422/
+ *- http://www.freesound.org/people/Cabeeno%20Rossley/sounds/126422/
  *- gameover snd by fins licensed under the cc license  
  *- http://www.freesound.org/people/fins/sounds/146734/
  *- jump snd by LloydEvans09 Rossley licensed under the cc license
  *- http://www.freesound.org/people/LloydEvans09/sounds/187024/
  *- coin snd by DrMinky licensed under the cc license
  *- https://www.freesound.org/people/DrMinky/sounds/166184/
- **- bite snd by yottasounds and published as public domain
+ *- bite snd by yottasounds and published as public domain
  *- https://www.freesound.org/people/yottasounds/sounds/232133/
  *
  *- tools used to create this game:
@@ -25,6 +25,9 @@
 
  * CHANGELOG
  
+ * v0.11.3
+ * - add share button and share hint pic when game over
+
  * v0.11.2
  * - fix weixin share thumbnail and title
 
