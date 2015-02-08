@@ -69,6 +69,7 @@ Preloader.prototype = {
         this.load.image('startBtn', 'assets/play2.png');
         this.load.image('replayBtn', 'assets/replay-btn.png');
         this.load.image('shareBtn', 'assets/share-btn.png');
+        this.load.image('goBtn', 'assets/go.png');
 
         //obstacles
         this.load.spritesheet('obstacles', 'assets/obstacles.png', 88, 121);

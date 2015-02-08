@@ -112,6 +112,10 @@ Game.prototype = {
         this.shareBtn.anchor.setTo(0.5, 0.5);
         this.overBoard.add(this.shareBtn);
 
+        this.goBtn = this.game.add.button(this.game.width / 2, this.game.height / 2+70, 'goBtn', this.goBar, this);
+        this.goBtn.anchor.setTo(0.5, 0.5);
+        this.overBoard.add(this.goBtn);
+
         // this.replayBtn.visible = false;
         this.overBoard.visible = false;
 
@@ -179,6 +183,9 @@ Game.prototype = {
         //share logic goes here
         this.shareHint.visible = true;
 
+    },
+    goBar: function() {
+        window.location.href='http://tieba.baidu.com/f?kw=%D5%D2%D7%E9%D6%AF';
     },
     closeHint: function() {
         this.shareHint.visible = false;
