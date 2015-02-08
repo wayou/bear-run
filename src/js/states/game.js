@@ -119,7 +119,7 @@ Game.prototype = {
 
         this.blinkInfo = this.game.add.tween(this.info).to({
             x: this.game.width + 100
-        }, 500, Phaser.Easing.Linear.NONE, false, 1000, 0, false);
+        }, 1000, Phaser.Easing.Linear.NONE, false, 1000, 0, false);
 
         //THINGS I LEARNT:reuse the tween, I think this's a bug, directlly use the this.blinkScore will not work properly while I need to reassign a new tween to it after the previous is completed.
         this.blinkInfo.onComplete.add(this.reInitializeInfoTween, this);
@@ -133,31 +133,31 @@ Game.prototype = {
         this.superTimeRemained = 0;
 
         //JUST FOR TEST PURPOSE
-        this.tests = ['天空飘来5个字', '那都不是事儿', '妈妈再打我一次', '向来情深，奈何缘浅', '嘿，你看过环太平间么', '妳妈逼妳相亲了麽'];
-        this.testTxt = this.game.add.text(this.game.width + 1, this.game.rnd.integerInRange(50, this.game.height / 2 - 50), this.tests[Math.floor(Math.random() * this.tests.length)], style);
-        this.testTxt.exists = false;
+        // this.tests = ['天空飘来5个字', '那都不是事儿', '妈妈再打我一次', '向来情深，奈何缘浅', '嘿，你看过环太平间么', '妳妈逼妳相亲了麽'];
+        // this.testTxt = this.game.add.text(this.game.width + 1, this.game.rnd.integerInRange(50, this.game.height / 2 - 50), this.tests[Math.floor(Math.random() * this.tests.length)], style);
+        // this.testTxt.exists = false;
 
-        // this.testTxt.checkWorldBounds = true;
-        this.flatTest = this.game.add.tween(this.testTxt).to({
-            x: -100
-        }, 4000, Phaser.Easing.Linear.NONE, false, 0, 0, false);
+        // // this.testTxt.checkWorldBounds = true;
+        // this.flatTest = this.game.add.tween(this.testTxt).to({
+        //     x: -100
+        // }, 4000, Phaser.Easing.Linear.NONE, false, 0, 0, false);
 
-        this.flatTest.onComplete.add(this.reInitializeTsetTween, this);
+        // this.flatTest.onComplete.add(this.reInitializeTsetTween, this);
         //TEST END
 
     },
     //FOR TEST
-    reInitializeTsetTween: function() {
-        this.testTxt.exists=false;
-        this.testTxt.x = this.game.width + 1;
-        this.testTxt.y = this.game.rnd.integerInRange(50, this.game.height / 2 - 50);
-        this.testTxt.text = this.tests[Math.floor(Math.random() * this.tests.length)];
+    // reInitializeTsetTween: function() {
+    //     this.testTxt.exists=false;
+    //     this.testTxt.x = this.game.width + 1;
+    //     this.testTxt.y = this.game.rnd.integerInRange(50, this.game.height / 2 - 50);
+    //     this.testTxt.text = this.tests[Math.floor(Math.random() * this.tests.length)];
 
-        this.flatTest = this.game.add.tween(this.testTxt).to({
-            x: -100
-        }, 4000, Phaser.Easing.Linear.NONE, false, 0, 0, false);
-        this.flatTest.onComplete.add(this.reInitializeTsetTween, this);
-    },
+    //     this.flatTest = this.game.add.tween(this.testTxt).to({
+    //         x: -100
+    //     }, 4000, Phaser.Easing.Linear.NONE, false, 0, 0, false);
+    //     this.flatTest.onComplete.add(this.reInitializeTsetTween, this);
+    // },
     //TEST END
     reInitializeScoreTween: function() {
         this.blinkScore = this.game.add.tween(this.score).to({
@@ -170,7 +170,7 @@ Game.prototype = {
         this.info.x = this.game.width / 2;
         this.blinkInfo = this.game.add.tween(this.info).to({
             alpha: 1
-        }, 400, Phaser.Easing.Bounce.Out, false, 0, 4, false);
+        }, 1000, Phaser.Easing.Bounce.Out, false, 0, 5, false);
         this.blinkInfo.onComplete.add(this.reInitializeInfoTween, this);
     },
     replay: function() {
@@ -257,6 +257,15 @@ Game.prototype = {
             }
         }
 
+        if (!this.game.global.superMode) {
+            this.showAcchievement();
+        }
+
+         //if reachs a new high score
+        if (this.game.global.highScore < this.game.global.score) {
+            this.updateHighScore();
+        }
+
         //generate obstacle every 1.1 sec
         if (this.game.global.score % 11 === 0) {
             this.generateObstacle();
@@ -274,30 +283,47 @@ Game.prototype = {
 
             //highlight the score text
             this.score.alpha = 0;
-            // this.shineScore.start();
-            // fix me: does this implementation will create a new tween every time and the previous are still exists? if so there will be potential memory leak
-            // this.game.add.tween(this.score).to({
-            //     alpha: 1
-            // }, 300, Phaser.Easing.Linear.NONE, true, 0, 4, false);
-
             this.blinkScore.start();
-
-            // this.info.text = '不错哦~新的最高分！';
-            // this.blinkInfo.start();
         }
 
         // this.scoreBoard.text = 'BEST:' + this.game.global.highScore + '  SCORE:' + this.game.global.score;
         this.score.text = '  SCORE:' + this.game.global.score;
 
         //JUST FOR TEST PURPOSE
-        if (!this.testTxt.exists) {
-            if (Math.random() - 0.5 > 0) {
-                this.testTxt.exists = true;
-                this.flatTest.start();
-            }
-        }
+        // if (!this.testTxt.exists) {
+        //     if (Math.random() - 0.5 > 0) {
+        //         this.testTxt.exists = true;
+        //         this.flatTest.start();
+        //     }
+        // }
         //TESET END
 
+    },
+    showAcchievement: function() {
+        switch (this.game.global.score) {
+            case 100:
+                this.info.text = '「百米之星」我骄傲！';
+                this.blinkInfo.start();
+                break;
+           case 500:
+                this.info.text = '成就「五百步无法被嘲笑」';
+                this.blinkInfo.start();
+                break;
+            case 1000:
+                this.info.text = '到达「千里之外」！';
+                this.blinkInfo.start();
+                break;
+            case 5000:
+                this.info.text = '天呐！万里长征完成一半了！';
+                this.blinkInfo.start();
+                break;
+            case 10000:
+                this.info.text = 'UNBELIEVABLE!完成万里长征！';
+                this.blinkInfo.start();
+                break;
+            default:
+                break;
+        }
     },
     generateObstacle: function() {
         // var x = this.game.rnd.integerInRange(this.game.width, this.game.width + 150);
@@ -317,7 +343,7 @@ Game.prototype = {
         var x = this.game.rnd.integerInRange(this.game.width, this.game.width + 150);
 
         //random generate a coin instead of normal obstacles
-        if (x < this.game.width + 10 && !this.coin.exists && !this.game.global.superMode) {
+        if (x < this.game.width + 7 && !this.coin.exists && !this.game.global.superMode) {
 
             this.coin.reset(x, this.coin.y);
             this.coin.body.velocity.x = this.game.global.speed;
@@ -363,6 +389,11 @@ Game.prototype = {
             //super time random within 5 to 15 sec
             this.superTimeRemained = this.game.rnd.integerInRange(5, 9);
 
+             //if there are running tween on info text, sotp it
+            if (this.blinkInfo.isRunning) {
+                this.blinkInfo.stop(true);
+            }
+
             this.info.text = '来自组织的关爱：' + this.superTimeRemained;
             this.info.alpha = 1;
 
@@ -391,12 +422,15 @@ Game.prototype = {
 
         //update high score
         if (this.game.global.highScore < this.game.global.score) {
-            this.game.global.highScore = this.game.global.score;
-            localStorage && localStorage.setItem('brhs', this.game.global.highScore);
+           this.updateHighScore();
         }
         this.game.global.score = 0;
         this.gameOverSnd.play();
 
+    },
+    updateHighScore: function() {
+        this.game.global.highScore = this.game.global.score;
+        localStorage && localStorage.setItem('brhs', this.game.global.highScore);
     },
     shutdown: function() {
         this.game.input.keyboard.removeKey(Phaser.Keyboard.SPACEBAR);

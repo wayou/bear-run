@@ -2,7 +2,7 @@
  * bear run
  * this is a html5 web game built with phaser
  * and inspired by chorme offline hidden game t-rex runner
- * v0.10.0
+ * v0.11.0
  * for more info pls head to https://github.com/wayou/bear-run
  *
  *credits:
@@ -25,6 +25,9 @@
 
  * CHANGELOG
  
+ * v0.11.0
+ * - show acchievements
+
  * v0.10.0
  * - preset colors
 
@@ -130,8 +133,8 @@ game.global = {
     speed: -300,
     RATIO: -20, //how fast the speed grow during the game running
     MAX_SPEED: -560,
-    SKY_COLORS:[0xE4C296,0x3a5fcd,0x27408b,0x4a708b,0x262626,0xcfc8c4,0x1975d1,0x165bb6,0x3399ff,0x800080,0x0057E7,0x5D5D5D,0x2C003A,0x0099ff],
-    GROUND_COLORS:[0x2f0919,0x262626,0x309060,0x003333,0x845422,0x854442,0x854442,0x4B3832,0xD3A625,0x777696,0xF37736,0xD0B783,0x5B391E,0x796878,0x9D6C05]
+    SKY_COLORS: [0xE4C296, 0x3a5fcd, 0x27408b, 0x4a708b, 0x262626, 0xcfc8c4, 0x1975d1, 0x165bb6, 0x3399ff, 0x800080, 0x0057E7, 0x5D5D5D, 0x2C003A, 0x0099ff],
+    GROUND_COLORS: [0x2f0919, 0x262626, 0x309060, 0x003333, 0x845422, 0x854442, 0x854442, 0x4B3832, 0xD3A625, 0x777696, 0xF37736, 0xD0B783, 0x5B391E, 0x796878, 0x9D6C05]
 };
 
 game.state.add('Boot', require('./states/boot'));
