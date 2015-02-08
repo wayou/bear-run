@@ -261,7 +261,7 @@ Game.prototype = {
             this.showAcchievement();
         }
 
-         //if reachs a new high score
+        //if reachs a new high score
         if (this.game.global.highScore < this.game.global.score) {
             this.updateHighScore();
         }
@@ -305,7 +305,7 @@ Game.prototype = {
                 this.info.text = '「百米之星」我骄傲！';
                 this.blinkInfo.start();
                 break;
-           case 500:
+            case 500:
                 this.info.text = '成就「五百步无法被嘲笑」';
                 this.blinkInfo.start();
                 break;
@@ -341,34 +341,35 @@ Game.prototype = {
         // if the one we get at first time does net exists, that's quite nice, use it directly. just reset it before we reues it.
 
         var x = this.game.rnd.integerInRange(this.game.width, this.game.width + 150);
+        var xForCoin = this.game.rnd.integerInRange(this.game.width, this.game.width + 150);
 
         //random generate a coin instead of normal obstacles
-        if (x < this.game.width + 7 && !this.coin.exists && !this.game.global.superMode) {
-
-            this.coin.reset(x, this.coin.y);
+        if (xForCoin < this.game.width + 7 && !this.coin.exists && !this.game.global.superMode) {
+            this.coin.reset(xForCoin, this.coin.y);
             this.coin.body.velocity.x = this.game.global.speed;
-        } else {
-            var obstacle = this.obstacles.getRandom();
+        }
 
-            if (obstacle.exists) {
-                //try get the next same type children
-                var typedChildren = this.obstacles.filter(function(child, index, children) {
-                    return !child.exists && child.obstacleIndex === obstacle.obstacleIndex && child.z !== obstacle.z;
-                }, false);
 
-                if (!typedChildren.first) {
-                    obstacle = new Obstacle(this.game, x, this.game.height / 2 - 30, 'obstacles', obstacle.obstacleIndex, obstacle.obstacleIndex);
-                    this.obstacles.add(obstacle);
-                } else {
-                    obstacle = typedChildren.first;
-                    obstacle.reset(x, obstacle.y);
-                    obstacle.body.velocity.x = this.game.global.speed;
-                }
+        var obstacle = this.obstacles.getRandom();
 
+        if (obstacle.exists) {
+            //try get the next same type children
+            var typedChildren = this.obstacles.filter(function(child, index, children) {
+                return !child.exists && child.obstacleIndex === obstacle.obstacleIndex && child.z !== obstacle.z;
+            }, false);
+
+            if (!typedChildren.first) {
+                obstacle = new Obstacle(this.game, x, this.game.height / 2 - 30, 'obstacles', obstacle.obstacleIndex, obstacle.obstacleIndex);
+                this.obstacles.add(obstacle);
             } else {
+                obstacle = typedChildren.first;
                 obstacle.reset(x, obstacle.y);
                 obstacle.body.velocity.x = this.game.global.speed;
             }
+
+        } else {
+            obstacle.reset(x, obstacle.y);
+            obstacle.body.velocity.x = this.game.global.speed;
         }
     },
     gameOver: function(player, obstacle) {
@@ -389,7 +390,7 @@ Game.prototype = {
             //super time random within 5 to 15 sec
             this.superTimeRemained = this.game.rnd.integerInRange(5, 9);
 
-             //if there are running tween on info text, sotp it
+            //if there are running tween on info text, sotp it
             if (this.blinkInfo.isRunning) {
                 this.blinkInfo.stop(true);
             }
@@ -422,7 +423,7 @@ Game.prototype = {
 
         //update high score
         if (this.game.global.highScore < this.game.global.score) {
-           this.updateHighScore();
+            this.updateHighScore();
         }
         this.game.global.score = 0;
         this.gameOverSnd.play();
