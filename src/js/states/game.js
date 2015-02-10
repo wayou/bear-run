@@ -147,32 +147,31 @@ Game.prototype = {
         this.shareHint.inputEnabled = true;
         this.shareHint.events.onInputDown.add(this.closeHint, this);
 
-        //JUST FOR TEST PURPOSE
-        // this.tests = ['天空飘来5个字', '那都不是事儿', '妈妈再打我一次', '向来情深，奈何缘浅', '嘿，你看过环太平间么', '妳妈逼妳相亲了麽'];
-        // this.testTxt = this.game.add.text(this.game.width + 1, this.game.rnd.integerInRange(50, this.game.height / 2 - 50), this.tests[Math.floor(Math.random() * this.tests.length)], style);
-        // this.testTxt.exists = false;
+        //JUST FOR TEST PURPOSE DANMU
+        this.tests = ['守贞吧：叔叔，不约不约~', '李毅吧：帝吧才是你的归属~', '广场舞大妈吧：弯弯的河水从天上来...', '90后吧：向来情深，奈何缘浅', '网友俱乐部：上贴吧找——————'];
+        this.testTxt = this.game.add.text(this.game.width + 1, this.game.rnd.integerInRange(50, this.game.height / 2 - 100), this.tests[Math.floor(Math.random() * this.tests.length)], style);
+        this.testTxt.exists = false;
 
-        // // this.testTxt.checkWorldBounds = true;
-        // this.flatTest = this.game.add.tween(this.testTxt).to({
-        //     x: -100
-        // }, 4000, Phaser.Easing.Linear.NONE, false, 0, 0, false);
+        this.flatTest = this.game.add.tween(this.testTxt).to({
+            x: -this.testTxt.width
+        }, 4000, Phaser.Easing.Linear.NONE, false, 0, 0, false);
 
-        // this.flatTest.onComplete.add(this.reInitializeTsetTween, this);
+        this.flatTest.onComplete.add(this.reInitializeTsetTween, this);
         //TEST END
 
     },
     //FOR TEST
-    // reInitializeTsetTween: function() {
-    //     this.testTxt.exists=false;
-    //     this.testTxt.x = this.game.width + 1;
-    //     this.testTxt.y = this.game.rnd.integerInRange(50, this.game.height / 2 - 50);
-    //     this.testTxt.text = this.tests[Math.floor(Math.random() * this.tests.length)];
+    reInitializeTsetTween: function() {
+        this.testTxt.exists = false;
+        this.testTxt.x = this.game.width + 1;
+        this.testTxt.y = this.game.rnd.integerInRange(50, this.game.height / 2 - 100);
+        this.testTxt.text = this.tests[Math.floor(Math.random() * this.tests.length)];
 
-    //     this.flatTest = this.game.add.tween(this.testTxt).to({
-    //         x: -100
-    //     }, 4000, Phaser.Easing.Linear.NONE, false, 0, 0, false);
-    //     this.flatTest.onComplete.add(this.reInitializeTsetTween, this);
-    // },
+        this.flatTest = this.game.add.tween(this.testTxt).to({
+            x: -this.testTxt.width
+        }, 4000, Phaser.Easing.Linear.NONE, false, 0, 0, false);
+        this.flatTest.onComplete.add(this.reInitializeTsetTween, this);
+    },
     //TEST END
     share: function() {
         //TODO
@@ -317,12 +316,12 @@ Game.prototype = {
         this.score.text = '  SCORE:' + this.game.global.score;
 
         //JUST FOR TEST PURPOSE
-        // if (!this.testTxt.exists) {
-        //     if (Math.random() - 0.5 > 0) {
-        //         this.testTxt.exists = true;
-        //         this.flatTest.start();
-        //     }
-        // }
+        if (!this.testTxt.exists) {
+            if (Math.random() - 0.5 > 0) {
+                this.testTxt.exists = true;
+                this.flatTest.start();
+            }
+        }
         //TESET END
 
     },
@@ -448,6 +447,8 @@ Game.prototype = {
         this.gameTimer.stop();
         // this.scoreTimer.stop();
 
+        this.flatTest.stop();
+
         //update high score
         if (this.game.global.highScore < this.game.global.score) {
             this.updateHighScore();
@@ -471,6 +472,7 @@ Game.prototype = {
         this.obstacles.destroy();
         this.overBoard.destroy();
         this.scoreBoard.destroy();
+        this.testTxt.destroy();
         this.ground.destroy();
         this.bottomGroundGraphics.destroy();
         this.gameTimer.removeAll();
