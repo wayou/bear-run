@@ -177,19 +177,21 @@ Game.prototype = {
 
         //tieba app or weixin
         if ( !! this.getQueryStr()._client_version) {
-            TbJsBridge.on('share', function() {
-                TbJsBridge.setShareData({
-                    product: '',
-                    app_key: '',
-                    app_name: '熊孩子找组织',
-                    app_icon: 'assets/share300.jpg',
-                    app_link: window.location.href,
-                    img: 'assets/share300.jpg',
-                    title: '熊孩子找组织',
-                    content: window.title,
-                    link: window.location.href,
-                    type: 1
-                });
+            TB.share({
+                product: '',
+                app_key: '',
+                app_name: '熊孩子找组织',
+                app_icon: 'assets/share300.jpg',
+                app_link: window.location.href,
+                img: 'assets/share300.jpg',
+                title: '熊孩子找组织',
+                content: window.title,
+                link: window.location.href,
+                type: 1
+            }, function(res) {
+                if (res.no === 0) {
+                    console.log('success');
+                }
             });
         } else {
             this.shareHint.visible = true;
