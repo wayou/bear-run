@@ -174,10 +174,47 @@ Game.prototype = {
     },
     //TEST END
     share: function() {
-        //TODO
-        //share logic goes here
-        this.shareHint.visible = true;
 
+        //tieba app or weixin
+        if ( !! this.getQueryStr()._client_version) {
+            TbJsBridge.on('share', function() {
+                TbJsBridge.setShareData({
+                    product: '',
+                    app_key: '',
+                    app_name: '熊孩子找组织',
+                    app_icon: 'assets/share300.jpg',
+                    app_link: window.location.href,
+                    img: 'assets/share300.jpg',
+                    title: '熊孩子找组织',
+                    content: window.title,
+                    link: window.location.href,
+                    type: 1
+                });
+            });
+        } else {
+            this.shareHint.visible = true;
+        }
+
+    },
+    getQueryStr: function() {
+        var query_string = {};
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split("=");
+            // If first entry with this name
+            if (typeof query_string[pair[0]] === "undefined") {
+                query_string[pair[0]] = pair[1];
+                // If second entry with this name
+            } else if (typeof query_string[pair[0]] === "string") {
+                var arr = [query_string[pair[0]], pair[1]];
+                query_string[pair[0]] = arr;
+                // If third or later entry with this name
+            } else {
+                query_string[pair[0]].push(pair[1]);
+            }
+        }
+        return query_string;
     },
     goBar: function() {
         window.location.href = 'http://tieba.baidu.com/f?kw=%D5%D2%D7%E9%D6%AF';
