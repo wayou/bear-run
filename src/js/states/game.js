@@ -101,11 +101,11 @@ Game.prototype = {
 
         this.overBoard = this.game.add.group();
 
-        this.replayBtn = this.game.add.button(this.game.width / 2 + 47, this.game.height / 3*2, 'replayBtn', this.replay, this);
+        this.replayBtn = this.game.add.button(this.game.width / 2 - 47, this.game.height / 3*2, 'replayBtn', this.replay, this);
         this.replayBtn.anchor.setTo(0.5, 0.5);
         this.overBoard.add(this.replayBtn);
 
-        this.shareBtn = this.game.add.button(this.game.width / 2 - 47, this.game.height / 3*2, 'shareBtn', this.share, this);
+        this.shareBtn = this.game.add.button(this.game.width / 2 + 47, this.game.height / 3*2, 'shareBtn', this.share, this);
         this.shareBtn.anchor.setTo(0.5, 0.5);
         this.overBoard.add(this.shareBtn);
 
