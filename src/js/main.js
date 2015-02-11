@@ -139,7 +139,8 @@
 
 'use strict';
 
-var game = new Phaser.Game(320, 480, Phaser.AUTO, '');
+// var game = new Phaser.Game(320, 480, Phaser.AUTO, '');
+var game = new Phaser.Game(375, 667, Phaser.AUTO, '');
 //use canvas mode for debuging purpose, for the game.debug only works in canvas mode
 //fix me: even change to canvas mode the game.debug still not working
 // var game = new Phaser.Game(320, 480, Phaser.CANVAS, '');

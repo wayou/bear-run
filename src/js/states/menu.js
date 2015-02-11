@@ -20,10 +20,11 @@ Menu.prototype = {
         this.bottomGroundGraphics = this.game.add.graphics(0, 0);
         this.bottomGroundGraphics.lineStyle(0);
         this.bottomGroundGraphics.beginFill(0x9D6C05, 1);
-        this.bottomGroundGraphics.drawRect(0, this.game.height / 2, this.game.width, this.game.height / 2);
+        this.bottomGroundGraphics.drawRect(0, this.game.height / 3*2, this.game.width, this.game.height / 3*2);
 
         //place the ground
-        this.ground = new Ground(this.game, 0, this.game.height / 2, 335, 25, 'ground');
+        // this.ground = new Ground(this.game, 0, this.game.height / 3*2, 335, 25, 'ground');
+        this.ground = new Ground(this.game, 0, this.game.height / 3*2, 1061, 222, Math.random()>0.5?'ground-1':'ground-2');
         //fill the bottom half screen
         this.game.add.existing(this.ground);
 

@@ -40,13 +40,12 @@ Preloader.prototype = {
         this.load.spritesheet('player', 'assets/player.png', 32, 48);
 
         //the ground
-        this.load.image('ground', 'assets/ground.png');
+        // this.load.image('ground', 'assets/ground.png');
+        this.load.image('ground-1', 'assets/ground-1.png');
+        this.load.image('ground-2', 'assets/ground-2.png');
 
         //the du coin
         this.load.image('ducoin', 'assets/du_coin.png');
-
-        //emojis
-        this.load.image('emojis', 'assets/emojis.png');
 
         //device orientation
         this.load.image('orientation', 'assets/orientation.jpg');

@@ -22,24 +22,24 @@ Game.prototype = {
         this.game.add.existing(this.background);
 
         //the bottom background
-        this.bottomGroundGraphics = this.game.add.graphics(0, 0);
-        this.bottomGroundGraphics.lineStyle(0);
-        this.bottomGroundGraphics.beginFill(this.game.global.GROUND_COLORS[Math.floor(Math.random() * this.game.global.GROUND_COLORS.length)], 1);
-        this.bottomGroundGraphics.drawRect(0, this.game.height / 2, this.game.width, this.game.height / 2);
+        // this.bottomGroundGraphics = this.game.add.graphics(0, 0);
+        // this.bottomGroundGraphics.lineStyle(0);
+        // this.bottomGroundGraphics.beginFill(this.game.global.GROUND_COLORS[Math.floor(Math.random() * this.game.global.GROUND_COLORS.length)], 1);
+        // this.bottomGroundGraphics.drawRect(0, this.game.height / 3*2, this.game.width, this.game.height / 3*2);
 
         //place the ground
-        this.ground = new Ground(this.game, 0, this.game.height / 2, 335, 25, 'ground');
-        //fill the bottom half screen
+        this.ground = new Ground(this.game, 0, this.game.height / 3*2, 1061, 222, Math.random()>0.5?'ground-1':'ground-2');
         this.game.add.existing(this.ground);
+
 
         this.obstacles = this.game.add.group();
         //add all obstacles to the group
-        this.obstacles.add(new Obstacle(this.game, -50, this.game.height / 2 - 30, 'obstacles', 0, 0));
-        this.obstacles.add(new Obstacle(this.game, -50, this.game.height / 2 - 30, 'obstacles', 1, 1));
-        this.obstacles.add(new Obstacle(this.game, -50, this.game.height / 2 - 30, 'obstacles', 2, 2));
-        this.obstacles.add(new Obstacle(this.game, -50, this.game.height / 2 - 30, 'obstacles', 3, 3));
+        this.obstacles.add(new Obstacle(this.game, -50, this.game.height / 3*2 - 30, 'obstacles', 0, 0));
+        this.obstacles.add(new Obstacle(this.game, -50, this.game.height / 3*2 - 30, 'obstacles', 1, 1));
+        this.obstacles.add(new Obstacle(this.game, -50, this.game.height / 3*2 - 30, 'obstacles', 2, 2));
+        this.obstacles.add(new Obstacle(this.game, -50, this.game.height / 3*2 - 30, 'obstacles', 3, 3));
 
-        this.coin = new Coin(this.game, this.game.width + 50, this.game.height / 2 - 100, 'ducoin');
+        this.coin = new Coin(this.game, this.game.width + 50, this.game.height / 3*2 - 100, 'ducoin');
         this.game.add.existing(this.coin);
 
         //the player
@@ -101,11 +101,11 @@ Game.prototype = {
 
         this.overBoard = this.game.add.group();
 
-        this.replayBtn = this.game.add.button(this.game.width / 2 + 47, this.game.height / 2, 'replayBtn', this.replay, this);
+        this.replayBtn = this.game.add.button(this.game.width / 2 + 47, this.game.height / 3*2, 'replayBtn', this.replay, this);
         this.replayBtn.anchor.setTo(0.5, 0.5);
         this.overBoard.add(this.replayBtn);
 
-        this.shareBtn = this.game.add.button(this.game.width / 2 - 47, this.game.height / 2, 'shareBtn', this.share, this);
+        this.shareBtn = this.game.add.button(this.game.width / 2 - 47, this.game.height / 3*2, 'shareBtn', this.share, this);
         this.shareBtn.anchor.setTo(0.5, 0.5);
         this.overBoard.add(this.shareBtn);
 
@@ -135,14 +135,14 @@ Game.prototype = {
         //auto start the game after 3 secs
         // this.autoStartTimer = this.game.time.events.add(Phaser.Timer.SECOND * 3, this.startGame, this);
 
-        this.tap = this.game.add.sprite(this.game.width / 2, this.game.height / 2, 'tap');
+        this.tap = this.game.add.sprite(this.game.width / 2, this.game.height /2, 'tap');
         this.tap.anchor.setTo(0.5, 0.5);
 
         this.superTimeRemained = 0;
 
 
         //JUST FOR TEST PURPOSE DANMU
-        this.barrageTxt = this.game.add.text(this.game.width + 1, this.game.rnd.integerInRange(50, this.game.height / 2 - 100), this.game.global.barrages[Math.floor(Math.random() * this.game.global.barrages.length)], style);
+        this.barrageTxt = this.game.add.text(this.game.width + 1, this.game.rnd.integerInRange(50, this.game.height / 3*2 - 100), this.game.global.barrages[Math.floor(Math.random() * this.game.global.barrages.length)], style);
         this.barrageTxt.exists = false;
 
         this.flowBarrage = this.game.add.tween(this.barrageTxt).to({
@@ -164,7 +164,7 @@ Game.prototype = {
     reInitializeBarrageTween: function() {
         this.barrageTxt.exists = false;
         this.barrageTxt.x = this.game.width + 1;
-        this.barrageTxt.y = this.game.rnd.integerInRange(50, this.game.height / 2 - 100);
+        this.barrageTxt.y = this.game.rnd.integerInRange(50, this.game.height / 3*2 - 100);
         this.barrageTxt.text = this.game.global.barrages[Math.floor(Math.random() * this.game.global.barrages.length)];
 
         this.flowBarrage = this.game.add.tween(this.barrageTxt).to({
@@ -176,26 +176,6 @@ Game.prototype = {
     share: function() {
         //tieba app or weixin
         this.shareHint.visible = true;
-    },
-    getQueryStr: function() {
-        var query_string = {};
-        var query = window.location.search.substring(1);
-        var vars = query.split("&");
-        for (var i = 0; i < vars.length; i++) {
-            var pair = vars[i].split("=");
-            // If first entry with this name
-            if (typeof query_string[pair[0]] === "undefined") {
-                query_string[pair[0]] = pair[1];
-                // If second entry with this name
-            } else if (typeof query_string[pair[0]] === "string") {
-                var arr = [query_string[pair[0]], pair[1]];
-                query_string[pair[0]] = arr;
-                // If third or later entry with this name
-            } else {
-                query_string[pair[0]].push(pair[1]);
-            }
-        }
-        return query_string;
     },
     goBar: function() {
         window.location.href = 'http://tieba.baidu.com/f?kw=%D5%D2%D7%E9%D6%AF';
@@ -374,10 +354,10 @@ Game.prototype = {
 
         // var obstacle = this.obstacles.getFirstExists(false);
         // if (!obstacle) {
-        //     obstacle = new Obstacle(this.game, x, this.game.height / 2 - 30, 'dustbin');
+        //     obstacle = new Obstacle(this.game, x, this.game.height / 3*2 - 30, 'dustbin');
         //     this.obstacles.add(obstacle);
         // } else {
-        //     obstacle.reset(x, this.game.height / 2 - 30);
+        //     obstacle.reset(x, this.game.height / 3*2 - 30);
         //     obstacle.body.velocity.x = this.game.global.speed;
         // }
 
@@ -402,7 +382,7 @@ Game.prototype = {
             }, false);
 
             if (!typedChildren.first) {
-                obstacle = new Obstacle(this.game, x, this.game.height / 2 - 30, 'obstacles', obstacle.obstacleIndex, obstacle.obstacleIndex);
+                obstacle = new Obstacle(this.game, x, this.game.height / 3*2 - 30, 'obstacles', obstacle.obstacleIndex, obstacle.obstacleIndex);
                 this.obstacles.add(obstacle);
             } else {
                 obstacle = typedChildren.first;
@@ -492,7 +472,7 @@ Game.prototype = {
         this.scoreBoard.destroy();
         this.barrageTxt.destroy();
         this.ground.destroy();
-        this.bottomGroundGraphics.destroy();
+        // this.bottomGroundGraphics.destroy();
         this.gameTimer.removeAll();
         this.gameTimer.destroy();
         this.game.time.removeAll();
