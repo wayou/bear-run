@@ -48,7 +48,7 @@ Preloader.prototype = {
         this.load.image('ducoin', 'assets/du_coin.png');
 
         //device orientation
-        this.load.image('orientation', 'assets/orientation.jpg');
+        // this.load.image('orientation', 'assets/orientation.jpg');
 
         //instruction
         this.load.image('tap', 'assets/tap.png');
