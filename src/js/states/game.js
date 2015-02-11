@@ -28,7 +28,7 @@ Game.prototype = {
         // this.bottomGroundGraphics.drawRect(0, this.game.height / 3*2, this.game.width, this.game.height / 3*2);
 
         //place the ground
-        this.ground = new Ground(this.game, 0, this.game.height / 3*2, 1061, 222, Math.random()>0.5?'ground-1':'ground-2');
+        this.ground = new Ground(this.game, 0, this.game.height / 3*2, 531, 222, Math.random()>0.5?'ground-1':'ground-2');
         this.game.add.existing(this.ground);
 
 

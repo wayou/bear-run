@@ -41,8 +41,8 @@ Preloader.prototype = {
 
         //the ground
         // this.load.image('ground', 'assets/ground.png');
-        this.load.image('ground-1', 'assets/ground-1.png');
-        this.load.image('ground-2', 'assets/ground-2.png');
+        this.load.image('ground-1', 'assets/ground-1.jpg');
+        this.load.image('ground-2', 'assets/ground-2.jpg');
 
         //the du coin
         this.load.image('ducoin', 'assets/du_coin.png');
