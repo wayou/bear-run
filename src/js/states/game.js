@@ -84,9 +84,9 @@ Game.prototype = {
             strokeThickness: 2
         };
 
-        this.highScore = this.game.add.text(0, 0, 'BEST:' + this.game.global.highScore, style);
+        this.highScore = this.game.add.text(0, 0, 'BEST:' + this.game.global.highScore+'m', style);
 
-        this.score = this.game.add.text(100, 0, '  SCORE:0', style);
+        this.score = this.game.add.text(100, 0, '  SCORE:0m', style);
         this.blinkScore = this.game.add.tween(this.score).to({
             alpha: 1
         }, 400, Phaser.Easing.Bounce.Out, false, 0, 4, false);
@@ -311,7 +311,7 @@ Game.prototype = {
         }
 
         // this.scoreBoard.text = 'BEST:' + this.game.global.highScore + '  SCORE:' + this.game.global.score;
-        this.score.text = '  SCORE:' + this.game.global.score;
+        this.score.text = '  SCORE:' + this.game.global.score+'m';
 
         //JUST FOR TEST PURPOSE
         if (!this.barrageTxt.exists) {

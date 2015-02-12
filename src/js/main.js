@@ -8,8 +8,8 @@
  *CREDITS:
  *- code and art : wayou
  *- the bear stuff characters are created by tiaba ue team, and all characters used in this game are adapted from their works by wayou
- *- score snd by Cabeeno Rossley licensed under the cc license
- *- http://www.freesound.org/people/Cabeeno%20Rossley/sounds/126422/
+ *- score snd by AdamWeeden licensed under the cc license
+ *- https://www.freesound.org/people/AdamWeeden/sounds/157217/
  *- gameover snd by fins licensed under the cc license  
  *- http://www.freesound.org/people/fins/sounds/146734/
  *- jump snd by LloydEvans09 Rossley licensed under the cc license
