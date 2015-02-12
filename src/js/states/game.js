@@ -28,18 +28,17 @@ Game.prototype = {
         // this.bottomGroundGraphics.drawRect(0, this.game.height / 3*2, this.game.width, this.game.height / 3*2);
 
         //place the ground
-        this.ground = new Ground(this.game, 0, this.game.height / 3*2, 531, 222, Math.random()>0.5?'ground-1':'ground-2');
+        this.ground = new Ground(this.game, 0, this.game.height / 3 * 2, 531, 222, Math.random() > 0.5 ? 'ground-1' : 'ground-2');
         this.game.add.existing(this.ground);
-
 
         this.obstacles = this.game.add.group();
         //add all obstacles to the group
-        this.obstacles.add(new Obstacle(this.game, -50, this.game.height / 3*2 - 30, 'obstacles', 0, 0));
-        this.obstacles.add(new Obstacle(this.game, -50, this.game.height / 3*2 - 30, 'obstacles', 1, 1));
-        this.obstacles.add(new Obstacle(this.game, -50, this.game.height / 3*2 - 30, 'obstacles', 2, 2));
-        this.obstacles.add(new Obstacle(this.game, -50, this.game.height / 3*2 - 30, 'obstacles', 3, 3));
+        this.obstacles.add(new Obstacle(this.game, -50, this.game.height / 3 * 2 - 30, 'obstacles', 0, 0));
+        this.obstacles.add(new Obstacle(this.game, -50, this.game.height / 3 * 2 - 30, 'obstacles', 1, 1));
+        this.obstacles.add(new Obstacle(this.game, -50, this.game.height / 3 * 2 - 30, 'obstacles', 2, 2));
+        this.obstacles.add(new Obstacle(this.game, -50, this.game.height / 3 * 2 - 30, 'obstacles', 3, 3));
 
-        this.coin = new Coin(this.game, this.game.width + 50, this.game.height / 3*2 - 100, 'ducoin');
+        this.coin = new Coin(this.game, this.game.width + 50, this.game.height / 3 * 2 - 100, 'ducoin');
         this.game.add.existing(this.coin);
 
         //the player
@@ -84,7 +83,7 @@ Game.prototype = {
             strokeThickness: 2
         };
 
-        this.highScore = this.game.add.text(0, 0, 'BEST:' + this.game.global.highScore+'m', style);
+        this.highScore = this.game.add.text(0, 0, 'BEST:' + this.game.global.highScore + 'm', style);
 
         this.score = this.game.add.text(100, 0, '  SCORE:0m', style);
         this.blinkScore = this.game.add.tween(this.score).to({
@@ -98,23 +97,6 @@ Game.prototype = {
         this.scoreBoard.add(this.score);
         this.scoreBoard.x = 10;
         this.scoreBoard.y = 10;
-
-        this.overBoard = this.game.add.group();
-
-        this.replayBtn = this.game.add.button(this.game.width / 2 - 47, this.game.height / 3*2, 'replayBtn', this.replay, this);
-        this.replayBtn.anchor.setTo(0.5, 0.5);
-        this.overBoard.add(this.replayBtn);
-
-        this.shareBtn = this.game.add.button(this.game.width / 2 + 47, this.game.height / 3*2, 'shareBtn', this.share, this);
-        this.shareBtn.anchor.setTo(0.5, 0.5);
-        this.overBoard.add(this.shareBtn);
-
-        this.goBtn = this.game.add.button(this.game.width / 2, this.game.height - 50, 'goBtn', this.goBar, this);
-        this.goBtn.anchor.setTo(0.5, 0.5);
-        this.overBoard.add(this.goBtn);
-
-        // this.replayBtn.visible = false;
-        this.overBoard.visible = false;
 
         this.info = this.game.add.text(this.game.width / 2, 70, '组织在前方等你~', {
             font: '20px Microsoft Yahei',
@@ -135,14 +117,13 @@ Game.prototype = {
         //auto start the game after 3 secs
         // this.autoStartTimer = this.game.time.events.add(Phaser.Timer.SECOND * 3, this.startGame, this);
 
-        this.tap = this.game.add.sprite(this.game.width / 2, this.game.height /2, 'tap');
+        this.tap = this.game.add.sprite(this.game.width / 2, this.game.height / 2, 'tap');
         this.tap.anchor.setTo(0.5, 0.5);
 
         this.superTimeRemained = 0;
 
-
         //JUST FOR TEST PURPOSE DANMU
-        this.barrageTxt = this.game.add.text(this.game.width + 1, this.game.rnd.integerInRange(50, this.game.height / 3*2 - 100), this.game.global.barrages[Math.floor(Math.random() * this.game.global.barrages.length)], style);
+        this.barrageTxt = this.game.add.text(this.game.width + 1, this.game.rnd.integerInRange(50, this.game.height / 3 * 2 - 100), this.game.global.barrages[Math.floor(Math.random() * this.game.global.barrages.length)], style);
         this.barrageTxt.exists = false;
 
         this.flowBarrage = this.game.add.tween(this.barrageTxt).to({
@@ -151,6 +132,47 @@ Game.prototype = {
 
         this.flowBarrage.onComplete.add(this.reInitializeBarrageTween, this);
         //TEST END
+
+        this.overBoard = this.game.add.group();
+
+        this.endPic = this.game.add.sprite(this.game.width / 2, this.game.height / 2, 'end');
+        this.endPic.width = this.game.width;
+        this.endPic.anchor.setTo(0.5, 0.5);
+        this.overBoard.add(this.endPic);
+
+        this.finalScore = this.add.text(this.game.width / 2, 170, '9999', {
+            font: '25px Microsoft Yahei',
+            fill: '#ffff00',
+            fontWeight: 'bold'
+        });
+        this.finalScore.anchor.setTo(0.5, 0.5);
+        this.overBoard.add(this.finalScore);
+
+        //12一行
+        this.finalTxt = this.add.text(this.game.width / 2, 220, '', {
+            font: '14px Microsoft Yahei',
+            fill: '#000000',
+            align: 'center'
+        });
+        // this.finalTxt.wordWrapWidth = 190;
+        // this.finalTxt.wordWrap = true;
+        this.finalTxt.anchor.setTo(0.5, 0);
+        this.overBoard.add(this.finalTxt);
+
+        this.replayBtn = this.game.add.button(this.game.width / 2 - 47, this.game.height - 140, 'replayBtn', this.replay, this);
+        this.replayBtn.anchor.setTo(0.5, 0.5);
+        this.overBoard.add(this.replayBtn);
+
+        this.shareBtn = this.game.add.button(this.game.width / 2 + 47, this.game.height - 140, 'shareBtn', this.share, this);
+        this.shareBtn.anchor.setTo(0.5, 0.5);
+        this.overBoard.add(this.shareBtn);
+
+        this.goBtn = this.game.add.button(this.game.width / 2, this.game.height - 50, 'goBtn', this.goBar, this);
+        this.goBtn.anchor.setTo(0.5, 0.5);
+        this.overBoard.add(this.goBtn);
+
+        // this.replayBtn.visible = false;
+        this.overBoard.visible = false;
 
         this.shareHint = this.game.add.sprite(0, 0, 'shareHint');
         this.shareHint.width = this.game.width;
@@ -164,7 +186,7 @@ Game.prototype = {
     reInitializeBarrageTween: function() {
         this.barrageTxt.exists = false;
         this.barrageTxt.x = this.game.width + 1;
-        this.barrageTxt.y = this.game.rnd.integerInRange(50, this.game.height / 3*2 - 100);
+        this.barrageTxt.y = this.game.rnd.integerInRange(50, this.game.height / 3 * 2 - 100);
         this.barrageTxt.text = this.game.global.barrages[Math.floor(Math.random() * this.game.global.barrages.length)];
 
         this.flowBarrage = this.game.add.tween(this.barrageTxt).to({
@@ -311,7 +333,7 @@ Game.prototype = {
         }
 
         // this.scoreBoard.text = 'BEST:' + this.game.global.highScore + '  SCORE:' + this.game.global.score;
-        this.score.text = '  SCORE:' + this.game.global.score+'m';
+        this.score.text = '  SCORE:' + this.game.global.score + 'm';
 
         //JUST FOR TEST PURPOSE
         if (!this.barrageTxt.exists) {
@@ -382,7 +404,7 @@ Game.prototype = {
             }, false);
 
             if (!typedChildren.first) {
-                obstacle = new Obstacle(this.game, x, this.game.height / 3*2 - 30, 'obstacles', obstacle.obstacleIndex, obstacle.obstacleIndex);
+                obstacle = new Obstacle(this.game, x, this.game.height / 3 * 2 - 30, 'obstacles', obstacle.obstacleIndex, obstacle.obstacleIndex);
                 this.obstacles.add(obstacle);
             } else {
                 obstacle = typedChildren.first;
@@ -433,7 +455,10 @@ Game.prototype = {
         player.stop();
 
         // this.replayBtn.visible = true;
+        //结束文案goes here 
+        this.finalTxt.text = '小伙伴你还是适合短跑~';
         this.overBoard.visible = true;
+
         player.body.gravity = 0;
 
         this.player.frame = 4;
