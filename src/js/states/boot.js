@@ -20,8 +20,8 @@ Boot.prototype = {
             this.game.scale.setMinMax(240, 320, 480,640);
             this.game.scale.forceOrientation(false, true);
 
-            this.scale.enterIncorrectOrientation.add(this.enterIncorrectOrientation, this);
-            this.scale.leaveIncorrectOrientation.add(this.leaveIncorrectOrientation, this);
+            // this.scale.enterIncorrectOrientation.add(this.enterIncorrectOrientation, this);
+            // this.scale.leaveIncorrectOrientation.add(this.leaveIncorrectOrientation, this);
         }
 
         this.game.state.start('Preloader');
