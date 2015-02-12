@@ -140,7 +140,7 @@ Game.prototype = {
         this.endPic.anchor.setTo(0.5, 0.5);
         this.overBoard.add(this.endPic);
 
-        this.finalScore = this.add.text(this.game.width / 2, 170, '9999', {
+        this.finalScore = this.add.text(this.game.width / 2, 170, '0', {
             font: '25px Microsoft Yahei',
             fill: '#ffff00',
             fontWeight: 'bold'
@@ -348,7 +348,7 @@ Game.prototype = {
     showAcchievement: function() {
         switch (this.game.global.score) {
             case 100:
-                this.info.text = '「百米之星」我骄傲！';
+                this.info.text = '「百米之星，我骄傲」';
                 this.blinkInfo.start();
                 break;
             case 500:
@@ -360,11 +360,11 @@ Game.prototype = {
                 this.blinkInfo.start();
                 break;
             case 5000:
-                this.info.text = '天呐！万里长征完成一半了！';
+                this.info.text = '天了噜！万里长征跑了一半了~';
                 this.blinkInfo.start();
                 break;
             case 10000:
-                this.info.text = 'UNBELIEVABLE!完成万里长征！';
+                this.info.text = 'You are amazing！完爆夸父！';
                 this.blinkInfo.start();
                 break;
             default:
@@ -456,7 +456,8 @@ Game.prototype = {
 
         // this.replayBtn.visible = true;
         //结束文案goes here 
-        this.finalTxt.text = '小伙伴你还是适合短跑~';
+        this.finalScore.text = this.game.global.score;
+        this.finalTxt.text = this.getFinalTxt();
         this.overBoard.visible = true;
 
         player.body.gravity = 0;
@@ -481,7 +482,25 @@ Game.prototype = {
         this.gameOverSnd.play();
 
         //weixin share
-        document.title = '熊孩子找组织- ' + '跋涉' + this.game.global.highScore + '米' + '依然未见组织真身！小伙伴们快来一起找组织吧！';
+        document.title = '【组织召集令】我在路上都跑了' + this.game.global.highScore + 'm了，你人呢？！';
+    },
+    getFinalTxt: function() {
+        var score = this.game.global.score,
+            txt = '';
+        if (score < 100) {
+            txt = '亲还是比较适合短跑的呵呵，\n多多训练哦！这样才能向组\n织靠拢！';
+        } else if (score < 500) {
+            txt = '恭喜你获得‘百米之星’称号~继\n续加油！组织正在不远处向\n你招手！';
+        } else if (score < 1000) {
+            txt = '潜力股！组织可以考虑培养你！\n前提是你先找到人家哦~';
+        } else if (score < 5000) {
+            txt = '一口气跑这么远也是醉了~快来\n喝口茶继续的！';
+        } else if (score < 10000) {
+            txt = '风一样的熊仔！组织欣赏你！\n不摔你就能找到我了！哎。。';
+        } else {
+            txt = '是你！就是你！组织的人才，\n小快腿（shou）！准你入组织\n了！';
+        }
+        return txt;
     },
     updateHighScore: function() {
         this.game.global.highScore = this.game.global.score;
