@@ -123,7 +123,11 @@ Game.prototype = {
         this.superTimeRemained = 0;
 
         //JUST FOR TEST PURPOSE DANMU
-        this.barrageTxt = this.game.add.text(this.game.width + 1, this.game.rnd.integerInRange(50, this.game.height / 3 * 2 - 100), this.game.global.barrages[Math.floor(Math.random() * this.game.global.barrages.length)], style);
+        this.barrageTxt = this.game.add.text(this.game.width + 1, this.game.rnd.integerInRange(50, this.game.height / 3 * 2 - 100), this.game.global.barrages[Math.floor(Math.random() * this.game.global.barrages.length)], {
+            font: '16px Microsoft Yahei',
+            fill: '#FAAA1F',
+            fontWeight: 'bold'
+        });
         this.barrageTxt.exists = false;
 
         this.flowBarrage = this.game.add.tween(this.barrageTxt).to({
