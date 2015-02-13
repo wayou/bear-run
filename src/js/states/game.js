@@ -192,6 +192,7 @@ Game.prototype = {
         this.barrageTxt.x = this.game.width + 1;
         this.barrageTxt.y = this.game.rnd.integerInRange(50, this.game.height / 3 * 2 - 100);
         this.barrageTxt.text = this.game.global.barrages[Math.floor(Math.random() * this.game.global.barrages.length)];
+        this.barrageTxt.fill = this.game.global.BARRAGE_COLORS[Math.floor(Math.random() * this.game.global.BARRAGE_COLORS.length)];
 
         this.flowBarrage = this.game.add.tween(this.barrageTxt).to({
             x: -this.barrageTxt.width
@@ -239,7 +240,7 @@ Game.prototype = {
             //debug
             // this.game.debug.body(obstacle);
 
-            this.game.physics.arcade.overlap(this.player, obstacle, this.gameOver, this.shouldGameover, this);
+            // this.game.physics.arcade.overlap(this.player, obstacle, this.gameOver, this.shouldGameover, this);
         }, this);
 
     },
