@@ -127,7 +127,7 @@ Game.prototype = {
         this.barrageTxt = this.game.add.text(this.game.width + 1, this.game.rnd.integerInRange(50, this.game.height / 3 * 2 - 100), this.game.global.barrages[Math.floor(Math.random() * this.game.global.barrages.length)], {
             font: '20px Microsoft Yahei',
             fill: '#FAAA1F',
-            fontWeight: 'bolder'
+            fontWeight: 'bold'
         });
         this.barrageTxt.exists = false;
 
@@ -142,6 +142,7 @@ Game.prototype = {
 
         this.endPic = this.game.add.sprite(this.game.width / 2, this.game.height / 2, 'end');
         this.endPic.width = this.game.width;
+        this.endPic.height = this.game.height;
         this.endPic.anchor.setTo(0.5, 0.5);
         this.overBoard.add(this.endPic);
 
