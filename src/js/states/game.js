@@ -240,7 +240,7 @@ Game.prototype = {
             //debug
             // this.game.debug.body(obstacle);
 
-            // this.game.physics.arcade.overlap(this.player, obstacle, this.gameOver, this.shouldGameover, this);
+            this.game.physics.arcade.overlap(this.player, obstacle, this.gameOver, this.shouldGameover, this);
         }, this);
 
     },
