@@ -5,6 +5,8 @@ var Ground = function(game, x, y, width, height, key) {
 
     this.game.physics.arcade.enableBody(this);
 
+    this.scale.setTo(0.5,0.5);
+
     this.body.allowGravity = false;
     this.body.immovable = true;
 
@@ -18,7 +20,7 @@ Ground.prototype.update = function() {
 };
 
 Ground.prototype.scroll = function(speed) {
-    this.autoScroll(speed, 0);
+    this.autoScroll(speed*2, 0);
 };
 
 Ground.prototype.stop = function() {

@@ -28,7 +28,8 @@ Game.prototype = {
         // this.bottomGroundGraphics.drawRect(0, this.game.height / 3*2, this.game.width, this.game.height / 3*2);
 
         //place the ground
-        this.ground = new Ground(this.game, 0, this.game.height / 3 * 2, 531, 222, Math.random() > 0.5 ? 'ground-1' : 'ground-2');
+        // this.ground = new Ground(this.game, 0, this.game.height / 3 * 2, 531, 222, Math.random() > 0.5 ? 'ground-1' : 'ground-2');
+        this.ground = new Ground(this.game, 0, this.game.height / 3 * 2, 2084, 436, Math.random() > 0.5 ? 'ground-1' : 'ground-2');
         this.game.add.existing(this.ground);
 
         this.obstacles = this.game.add.group();
@@ -100,10 +101,10 @@ Game.prototype = {
 
         this.info = this.game.add.text(this.game.width / 2, 70, '组织在前方等你~', {
             font: '20px Microsoft Yahei',
-            fill: '#ffff00',
-            stroke: '#000',
-            fontWeight: 'bold',
-            strokeThickness: 1
+            fill: '#F53E62',
+            // stroke: '#000',
+            fontWeight: 'bold'
+            // strokeThickness: 1
         });
         this.info.anchor.setTo(0.5, 0.5);
         // this.info.alpha = 0;
@@ -124,9 +125,9 @@ Game.prototype = {
 
         //JUST FOR TEST PURPOSE DANMU
         this.barrageTxt = this.game.add.text(this.game.width + 1, this.game.rnd.integerInRange(50, this.game.height / 3 * 2 - 100), this.game.global.barrages[Math.floor(Math.random() * this.game.global.barrages.length)], {
-            font: '16px Microsoft Yahei',
+            font: '20px Microsoft Yahei',
             fill: '#FAAA1F',
-            fontWeight: 'bold'
+            fontWeight: 'bolder'
         });
         this.barrageTxt.exists = false;
 
@@ -156,6 +157,7 @@ Game.prototype = {
         this.finalTxt = this.add.text(this.game.width / 2, 220, '', {
             font: '14px Microsoft Yahei',
             fill: '#000000',
+            fontWeight: 'bold',
             align: 'center'
         });
         // this.finalTxt.wordWrapWidth = 190;
@@ -193,6 +195,7 @@ Game.prototype = {
         this.barrageTxt.y = this.game.rnd.integerInRange(50, this.game.height / 3 * 2 - 100);
         this.barrageTxt.text = this.game.global.barrages[Math.floor(Math.random() * this.game.global.barrages.length)];
         this.barrageTxt.fill = this.game.global.BARRAGE_COLORS[Math.floor(Math.random() * this.game.global.BARRAGE_COLORS.length)];
+        this.barrageTxt.fontSize = this.game.rnd.integerInRange(20, 25);
 
         this.flowBarrage = this.game.add.tween(this.barrageTxt).to({
             x: -this.barrageTxt.width
