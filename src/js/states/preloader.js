@@ -61,7 +61,7 @@ Preloader.prototype = {
         this.load.image('cloud2', 'assets/cloud2.png');
 
         //welcome pic
-        this.load.image('welcome', 'assets/welcome.png');
+        this.load.image('welcome', 'assets/welcome.jpg');
         this.load.image('shareHint', 'assets/share-hint.png');
 
         //the button
