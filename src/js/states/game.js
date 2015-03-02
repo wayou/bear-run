@@ -166,20 +166,22 @@ Game.prototype = {
         this.finalTxt.anchor.setTo(0.5, 0);
         this.overBoard.add(this.finalTxt);
 
-        this.replayBtn = this.game.add.button(this.game.width / 2 - 47, this.game.height - 140, 'replayBtn', this.replay, this);
-        this.replayBtn.anchor.setTo(0.5, 0.5);
-        this.overBoard.add(this.replayBtn);
+        // this.replayBtn = this.game.add.button(this.game.width / 2 - 47, this.game.height - 140, 'replayBtn', this.replay, this);
+        // this.replayBtn.anchor.setTo(0.5, 0.5);
+        // this.overBoard.add(this.replayBtn);
 
-        this.shareBtn = this.game.add.button(this.game.width / 2 + 47, this.game.height - 140, 'shareBtn', this.share, this);
-        this.shareBtn.anchor.setTo(0.5, 0.5);
-        this.overBoard.add(this.shareBtn);
+        // this.shareBtn = this.game.add.button(this.game.width / 2 + 47, this.game.height - 140, 'shareBtn', this.share, this);
+        // this.shareBtn.anchor.setTo(0.5, 0.5);
+        // this.overBoard.add(this.shareBtn);
 
-        this.goBtn = this.game.add.button(this.game.width / 2, this.game.height - 50, 'goBtn', this.goBar, this);
-        this.goBtn.anchor.setTo(0.5, 0.5);
-        this.overBoard.add(this.goBtn);
+        // this.goBtn = this.game.add.button(this.game.width / 2, this.game.height - 50, 'goBtn', this.goBar, this);
+        // this.goBtn.anchor.setTo(0.5, 0.5);
+        // this.overBoard.add(this.goBtn);
 
         // this.replayBtn.visible = false;
         this.overBoard.visible = false;
+        document.querySelector('.btn-wrapper').style.display='none';
+
 
         this.shareHint = this.game.add.sprite(0, 0, 'shareHint');
         this.shareHint.width = this.game.width;
@@ -187,6 +189,8 @@ Game.prototype = {
         this.shareHint.visible = false;
         this.shareHint.inputEnabled = true;
         this.shareHint.events.onInputDown.add(this.closeHint, this);
+
+        this.game.global.btnSeted = false;
 
     },
     //FOR TEST
@@ -233,6 +237,7 @@ Game.prototype = {
     },
 
     update: function() {
+
         //print debug info and show sprite box
         // this.game.debug.body(this.player);
 
@@ -247,6 +252,40 @@ Game.prototype = {
             this.game.physics.arcade.overlap(this.player, obstacle, this.gameOver, this.shouldGameover, this);
         }, this);
 
+        if (!this.game.global.btnSeted) {
+            this.placeBtns();
+            this.game.global.btnSeted = true;
+        }
+
+    },
+    placeBtns: function() {
+        // playce the buttons
+        var gameCanvas = document.querySelector('canvas');
+
+        var shareHintPic=document.querySelector('#share-hint');
+        shareHintPic.style.width=gameCanvas.style.width;
+        shareHintPic.style.height=gameCanvas.style.height;
+        shareHintPic.style.left=gameCanvas.style.marginLeft;
+        shareHintPic.style.top=gameCanvas.style.marginTop;
+        shareHintPic.onclick=function(){
+            this.style.display='none';
+        };
+
+        var replayBtn = document.querySelector('#button-replay');
+        replayBtn.style.left = (parseInt(gameCanvas.style.marginLeft) || 0) + parseInt(gameCanvas.style.width) / 2 - 90 + 'px';
+        replayBtn.style.top = (parseInt(gameCanvas.style.marginTop) || 0) + parseInt(gameCanvas.style.height) / 2 + 60*(parseInt(gameCanvas.style.height)/480) + 'px';
+        replayBtn.onclick=this.replay.bind(this);
+
+        var shareBtn = document.querySelector('#button-share');
+        shareBtn.style.left = (parseInt(gameCanvas.style.marginLeft) || 0) + parseInt(gameCanvas.style.width) / 2 + 11 + 'px';
+        shareBtn.style.top = (parseInt(gameCanvas.style.marginTop) || 0) + parseInt(gameCanvas.style.height) / 2 + 60*(parseInt(gameCanvas.style.height)/480) + 'px';
+        shareBtn.onclick=function(){
+            document.querySelector('#share-hint').style.display='block';
+        };
+
+        var goBtn = document.querySelector('#button-go');
+        goBtn.style.left = (parseInt(gameCanvas.style.marginLeft) || 0) + parseInt(gameCanvas.style.width) / 2 - 84 + 'px';
+        goBtn.style.top = (parseInt(gameCanvas.style.marginTop) || 0) + parseInt(gameCanvas.style.height) - 80 + 'px';
     },
     shouldGameover: function() {
         //if status is 0, the game already stopped,prevent the gameOver callback to execute
@@ -468,6 +507,8 @@ Game.prototype = {
         this.finalScore.text = this.game.global.score;
         this.finalTxt.text = this.getFinalTxt();
         this.overBoard.visible = true;
+        //show buttons
+        document.querySelector('.btn-wrapper').style.display='block';
 
         player.body.gravity = 0;
 
