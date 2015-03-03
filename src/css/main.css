@@ -44,17 +44,17 @@ html, body {
 .button-share {
     width:76px;
     height: 65px; 
-    background: url(../assets/share-btn.png) 0px 0px no-repeat;
+    background: url(assets/share-btn.png) 0px 0px no-repeat;
 }
 .button-replay {
     width:76px;
     height: 65px; 
-    background: url(../assets/replay-btn.png) 0px 0px no-repeat;
+    background: url(assets/replay-btn.png) 0px 0px no-repeat;
 }
 .button-go {
     width:168px;
     height: 59px; 
-    background: url(../assets/go.png) 0px 0px no-repeat;
+    background: url(assets/go.png) 0px 0px no-repeat;
 }
 #share-hint{
     display: none;
