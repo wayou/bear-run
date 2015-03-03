@@ -236,7 +236,6 @@ Game.prototype = {
         //baidu track
         _hmt.push(['_trackEvent', 'bearun', '重玩']);
     },
-
     update: function() {
 
         //print debug info and show sprite box

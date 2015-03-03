@@ -2,7 +2,7 @@
  * bear run
  * this is a html5 web game built with phaser
  * and inspired by chorme offline hidden game t-rex runner
- * v1.1.1
+ * v1.2.0
  * for more info pls head to https://github.com/wayou/bear-run
  *
  *CREDITS:
@@ -25,6 +25,9 @@
  * new UE stuff are created by Na
 
  * CHANGELOG
+ 
+ * v1.2.0
+ * - handle window resize and reset the buttons
  
  * v1.1.1
  * - add baidu event track
@@ -177,4 +180,3 @@ game.state.add('Menu', require('./states/menu'));
 game.state.add('Game', require('./states/game'));
 
 game.state.start('Boot');
-
