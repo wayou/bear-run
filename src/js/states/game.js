@@ -180,8 +180,7 @@ Game.prototype = {
 
         // this.replayBtn.visible = false;
         this.overBoard.visible = false;
-        document.querySelector('.btn-wrapper').style.display='none';
-
+        document.querySelector('.btn-wrapper').style.display = 'none';
 
         this.shareHint = this.game.add.sprite(0, 0, 'shareHint');
         this.shareHint.width = this.game.width;
@@ -234,6 +233,8 @@ Game.prototype = {
     },
     replay: function() {
         this.game.state.start('Game');
+        //baidu track
+        _hmt.push(['_trackEvent', 'bearun', '重玩']);
     },
 
     update: function() {
@@ -262,25 +263,27 @@ Game.prototype = {
         // playce the buttons
         var gameCanvas = document.querySelector('canvas');
 
-        var shareHintPic=document.querySelector('#share-hint');
-        shareHintPic.style.width=gameCanvas.style.width;
-        shareHintPic.style.height=gameCanvas.style.height;
-        shareHintPic.style.left=gameCanvas.style.marginLeft;
-        shareHintPic.style.top=gameCanvas.style.marginTop;
-        shareHintPic.onclick=function(){
-            this.style.display='none';
+        var shareHintPic = document.querySelector('#share-hint');
+        shareHintPic.style.width = gameCanvas.style.width;
+        shareHintPic.style.height = gameCanvas.style.height;
+        shareHintPic.style.left = gameCanvas.style.marginLeft;
+        shareHintPic.style.top = gameCanvas.style.marginTop;
+        shareHintPic.onclick = function() {
+            this.style.display = 'none';
         };
 
         var replayBtn = document.querySelector('#button-replay');
         replayBtn.style.left = (parseInt(gameCanvas.style.marginLeft) || 0) + parseInt(gameCanvas.style.width) / 2 - 90 + 'px';
-        replayBtn.style.top = (parseInt(gameCanvas.style.marginTop) || 0) + parseInt(gameCanvas.style.height) / 2 + 60*(parseInt(gameCanvas.style.height)/480) + 'px';
-        replayBtn.onclick=this.replay.bind(this);
+        replayBtn.style.top = (parseInt(gameCanvas.style.marginTop) || 0) + parseInt(gameCanvas.style.height) / 2 + 60 * (parseInt(gameCanvas.style.height) / 480) + 'px';
+        replayBtn.onclick = this.replay.bind(this);
 
         var shareBtn = document.querySelector('#button-share');
         shareBtn.style.left = (parseInt(gameCanvas.style.marginLeft) || 0) + parseInt(gameCanvas.style.width) / 2 + 11 + 'px';
-        shareBtn.style.top = (parseInt(gameCanvas.style.marginTop) || 0) + parseInt(gameCanvas.style.height) / 2 + 60*(parseInt(gameCanvas.style.height)/480) + 'px';
-        shareBtn.onclick=function(){
-            document.querySelector('#share-hint').style.display='block';
+        shareBtn.style.top = (parseInt(gameCanvas.style.marginTop) || 0) + parseInt(gameCanvas.style.height) / 2 + 60 * (parseInt(gameCanvas.style.height) / 480) + 'px';
+        shareBtn.onclick = function() {
+            document.querySelector('#share-hint').style.display = 'block';
+            //baidu track
+            _hmt.push(['_trackEvent', 'bearun', '分享']);
         };
 
         var goBtn = document.querySelector('#button-go');
@@ -508,7 +511,7 @@ Game.prototype = {
         this.finalTxt.text = this.getFinalTxt();
         this.overBoard.visible = true;
         //show buttons
-        document.querySelector('.btn-wrapper').style.display='block';
+        document.querySelector('.btn-wrapper').style.display = 'block';
 
         player.body.gravity = 0;
 

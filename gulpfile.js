@@ -110,7 +110,7 @@ gulp.task('connect', function () {
   connect.server({
     root: ['./dist'],
     port: 9000,
-    host:'172.22.74.102',
+    host:'172.22.66.13',
     livereload: true
   });
 });
