@@ -56,6 +56,11 @@ html, body {
     height: 59px; 
     background: url(assets/go.png) 0px 0px no-repeat;
 }
+.button-more {
+    width:168px;
+    height: 59px; 
+    background: url(assets/more.png) 0px 0px no-repeat;
+}
 #share-hint{
     display: none;
     position: absolute;
