@@ -37,7 +37,11 @@ Boot.prototype = {
 
                 var goBtn = document.querySelector('#button-go');
                 goBtn.style.left = (parseInt(gameCanvas.style.marginLeft) || 0) + parseInt(gameCanvas.style.width) / 2 - 84 + 'px';
-                goBtn.style.top = (parseInt(gameCanvas.style.marginTop) || 0) + parseInt(gameCanvas.style.height) - 80 + 'px';
+                goBtn.style.top = (parseInt(gameCanvas.style.marginTop) || 0) + parseInt(gameCanvas.style.height) - 60 + 'px';
+
+                var moreBtn = document.querySelector('#button-more');
+                moreBtn.style.left = (parseInt(gameCanvas.style.marginLeft) || 0) + parseInt(gameCanvas.style.width) / 2 - 84 + 'px';
+                moreBtn.style.top = (parseInt(gameCanvas.style.marginTop) || 0) + parseInt(gameCanvas.style.height) - 110 + 'px';
             };
 
         } else {

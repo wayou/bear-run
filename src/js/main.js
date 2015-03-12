@@ -218,3 +218,38 @@ game.state.add('Menu', require('./states/menu'));
 game.state.add('Game', require('./states/game'));
 
 game.state.start('Boot');
+
+if (window.Messenger) {
+    /* messenger初始化 */
+    var messenger = new Messenger('gameIframe', 'tiebaGame');
+    messenger.addTarget(window.parent, 'tiebaIframe');
+    /* 接收信息 */
+    messenger.listen(function(data) {
+        if (data.command == 'comforum_game_fullscreen' || data.command == 'comforum_game_outfullscreen') {
+            // playce the buttons
+            var gameCanvas = document.querySelector('canvas');
+
+            var shareHintPic = document.querySelector('#share-hint');
+            shareHintPic.style.width = gameCanvas.style.width;
+            shareHintPic.style.height = gameCanvas.style.height;
+            shareHintPic.style.left = gameCanvas.style.marginLeft;
+            shareHintPic.style.top = gameCanvas.style.marginTop;
+
+            var replayBtn = document.querySelector('#button-replay');
+            replayBtn.style.left = (parseInt(gameCanvas.style.marginLeft) || 0) + parseInt(gameCanvas.style.width) / 2 - 90 + 'px';
+            replayBtn.style.top = (parseInt(gameCanvas.style.marginTop) || 0) + parseInt(gameCanvas.style.height) / 2 + 60 * (parseInt(gameCanvas.style.height) / 480) + 'px';
+
+            var shareBtn = document.querySelector('#button-share');
+            shareBtn.style.left = (parseInt(gameCanvas.style.marginLeft) || 0) + parseInt(gameCanvas.style.width) / 2 + 11 + 'px';
+            shareBtn.style.top = (parseInt(gameCanvas.style.marginTop) || 0) + parseInt(gameCanvas.style.height) / 2 + 60 * (parseInt(gameCanvas.style.height) / 480) + 'px';
+
+            var goBtn = document.querySelector('#button-go');
+            goBtn.style.left = (parseInt(gameCanvas.style.marginLeft) || 0) + parseInt(gameCanvas.style.width) / 2 - 84 + 'px';
+            goBtn.style.top = (parseInt(gameCanvas.style.marginTop) || 0) + parseInt(gameCanvas.style.height) - 60 + 'px';
+
+            var moreBtn = document.querySelector('#button-more');
+            moreBtn.style.left = (parseInt(gameCanvas.style.marginLeft) || 0) + parseInt(gameCanvas.style.width) / 2 - 84 + 'px';
+            moreBtn.style.top = (parseInt(gameCanvas.style.marginTop) || 0) + parseInt(gameCanvas.style.height) - 110 + 'px';
+        }
+    });
+}
