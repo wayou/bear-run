@@ -47,6 +47,10 @@ gulp.task('copylibs', ['clean'], function () {
     .pipe(gulpif(!watching, uglify({outSourceMaps: false})))
     .pipe(gulp.dest(paths.dist + 'js/lib'))
     .on('error', gutil.log);
+
+     gulp.src('src/js/messenger.js')
+    .pipe(gulp.dest(paths.dist))
+    .on('error', gutil.log);
 });
 
 gulp.task('compile', ['clean'], function () {
@@ -110,7 +114,7 @@ gulp.task('connect', function () {
   connect.server({
     root: ['./dist'],
     port: 9000,
-    host:'172.22.66.13',
+    host:'172.22.74.138',
     livereload: true
   });
 });
