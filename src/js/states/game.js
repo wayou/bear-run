@@ -271,6 +271,15 @@ Game.prototype = {
             this.style.display = 'none';
         };
 
+        var shareHintPic2 = document.querySelector('#share-hint2');
+        shareHintPic2.style.width = gameCanvas.style.width;
+        shareHintPic2.style.height = gameCanvas.style.height;
+        shareHintPic2.style.left = gameCanvas.style.marginLeft;
+        shareHintPic2.style.top = gameCanvas.style.marginTop;
+        shareHintPic2.onclick = function() {
+            this.style.display = 'none';
+        };
+
         var replayBtn = document.querySelector('#button-replay');
         replayBtn.style.left = (parseInt(gameCanvas.style.marginLeft) || 0) + parseInt(gameCanvas.style.width) / 2 - 90 + 'px';
         replayBtn.style.top = (parseInt(gameCanvas.style.marginTop) || 0) + parseInt(gameCanvas.style.height) / 2 + 60 * (parseInt(gameCanvas.style.height) / 480) + 'px';
@@ -279,8 +288,14 @@ Game.prototype = {
         var shareBtn = document.querySelector('#button-share');
         shareBtn.style.left = (parseInt(gameCanvas.style.marginLeft) || 0) + parseInt(gameCanvas.style.width) / 2 + 11 + 'px';
         shareBtn.style.top = (parseInt(gameCanvas.style.marginTop) || 0) + parseInt(gameCanvas.style.height) / 2 + 60 * (parseInt(gameCanvas.style.height) / 480) + 'px';
+        var isDesktop=this.game.device.desktop;
         shareBtn.onclick = function() {
-            document.querySelector('#share-hint').style.display = 'block';
+
+            if (isDesktop) {
+                document.querySelector('#share-hint2').style.display = 'block';
+            } else {
+                document.querySelector('#share-hint').style.display = 'block';
+            }
             //baidu track
             _hmt.push(['_trackEvent', 'bearun', '分享']);
         };
